@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — The Seasonal Archive</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2D331E",
+            "surface": "#f9faf3",
+            "background": "#f9faf3",
+            "surface-container": "#ecefe5",
+            "surface-container-high": "#e6eadf",
+            "surface-container-highest": "#dfe4d9",
+            "primary-container": "#dde7bd",
+            "outline-variant": "#aeb4a9",
+          },
+          fontFamily: {
+            "headline": ["Newsreader", "serif"],
+            "body": ["Noto Serif", "serif"],
+            "label": ["Newsreader", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; line-height: 1;
+    }
+    body { background-color: #f9faf3; color: #2D331E; -webkit-font-smoothing: antialiased; }
+
+    #wheel-svg { cursor: grab; touch-action: none; user-select: none; }
+    #wheel-svg:active { cursor: grabbing; }
+
+    #drum-viewport { touch-action: none; user-select: none; }
+
+    .ingredient-card {
+      transition: background-color 0.15s ease, transform 0.15s ease;
+    }
+    .ingredient-card:hover { background-color: #ecefe5; }
+    .ingredient-card:active { transform: scale(0.99); }
+
+    @media (prefers-reduced-motion: reduce) {
+      #drum-inner { transition: none !important; }
+    }
+  </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-primary min-h-screen">
+
+  <!-- Top Nav -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-surface border-b border-primary/20" role="navigation" aria-label="Main navigation">
+    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Open menu">
+      <span class="material-symbols-outlined text-primary" aria-hidden="true">menu</span>
+    </button>
+    <a href="index.html" class="font-headline text-[1.75rem] font-extrabold uppercase tracking-tight text-primary" aria-label="LARDER home">LARDER</a>
+    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Shopping bag">
+      <span class="material-symbols-outlined text-primary" aria-hidden="true">shopping_bag</span>
+    </button>
+  </nav>
+
+  <main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+
+    <!-- Section Header -->
+    <section class="mb-10 text-center" aria-labelledby="archive-heading">
+      <span class="font-label text-primary text-[0.6875rem] tracking-[0.2em] uppercase font-bold mb-2 block">The Seasonal Archive</span>
+      <h1 id="archive-heading" class="font-headline text-[3rem] md:text-[4rem] font-extrabold uppercase tracking-tighter text-primary leading-none mb-4">
+        In Season Now
+      </h1>
+      <div class="h-px w-10 bg-primary/25 mx-auto"></div>
+    </section>
+
+    <!-- Month Wheel -->
+    <section class="mb-10 flex flex-col items-center" aria-label="Month selector wheel">
+      <div class="relative inline-flex items-center justify-center">
+        <!-- Indicator arrow at top -->
+        <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none" aria-hidden="true">
+          <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings:'FILL' 1;">arrow_drop_down</span>
+        </div>
+
+        <!-- SVG Wheel -->
+        <svg
+          id="wheel-svg"
+          viewBox="-150 -150 300 300"
+          width="300"
+          height="300"
+          role="slider"
+          aria-label="Month selector"
+          aria-valuetext="May"
+          aria-valuenow="4"
+          aria-valuemin="0"
+          aria-valuemax="11"
+        >
+          <!-- Outer decorative rings -->
+          <circle cx="0" cy="0" r="143" fill="none" stroke="rgba(45,51,30,0.06)" stroke-width="1"/>
+          <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(45,51,30,0.12)" stroke-width="1"/>
+          <!-- Month text labels (positioned by JS) -->
+          <g id="months-group" font-family="Newsreader, serif" fill="#2D331E" class="select-none pointer-events-none">
+            <text id="m0" text-anchor="middle" dominant-baseline="middle">JAN</text>
+            <text id="m1" text-anchor="middle" dominant-baseline="middle">FEB</text>
+            <text id="m2" text-anchor="middle" dominant-baseline="middle">MAR</text>
+            <text id="m3" text-anchor="middle" dominant-baseline="middle">APR</text>
+            <text id="m4" text-anchor="middle" dominant-baseline="middle">MAY</text>
+            <text id="m5" text-anchor="middle" dominant-baseline="middle">JUN</text>
+            <text id="m6" text-anchor="middle" dominant-baseline="middle">JUL</text>
+            <text id="m7" text-anchor="middle" dominant-baseline="middle">AUG</text>
+            <text id="m8" text-anchor="middle" dominant-baseline="middle">SEP</text>
+            <text id="m9" text-anchor="middle" dominant-baseline="middle">OCT</text>
+            <text id="m10" text-anchor="middle" dominant-baseline="middle">NOV</text>
+            <text id="m11" text-anchor="middle" dominant-baseline="middle">DEC</text>
+          </g>
+          <!-- Center image clip -->
+          <defs>
+            <clipPath id="center-clip"><circle cx="0" cy="0" r="72"/></clipPath>
+          </defs>
+          <image id="season-img" x="-72" y="-72" width="144" height="144" clip-path="url(#center-clip)" preserveAspectRatio="xMidYMid slice" href="https://picsum.photos/seed/spring/300/300"/>
+          <circle cx="0" cy="0" r="72" fill="none" stroke="rgba(45,51,30,0.18)" stroke-width="1"/>
+          <!-- Inner decorative ring -->
+          <circle cx="0" cy="0" r="84" fill="none" stroke="rgba(45,51,30,0.08)" stroke-width="0.5"/>
+        </svg>
+      </div>
+
+      <!-- Active month label below wheel -->
+      <div class="mt-4 text-center">
+        <p id="month-label" class="font-headline text-lg font-bold uppercase tracking-[0.25em] text-primary"></p>
+        <p id="season-label" class="font-body italic text-sm text-primary/60 mt-1"></p>
+      </div>
+    </section>
+
+    <!-- Ingredient Drum -->
+    <section class="mb-10" aria-label="Ingredient drum selector">
+      <div class="text-center mb-3">
+        <span class="font-label text-[0.6rem] uppercase tracking-[0.2em] text-primary/50">Scroll to explore</span>
+      </div>
+
+      <div
+        id="drum-viewport"
+        class="relative overflow-hidden mx-auto"
+        style="height: 260px; max-width: 420px;"
+        role="listbox"
+        aria-label="Seasonal ingredients"
+        tabindex="0"
+        aria-activedescendant="drum-active"
+      >
+        <!-- Top gradient mask -->
+        <div class="absolute inset-x-0 top-0 z-10 pointer-events-none" style="height:90px;background:linear-gradient(to bottom,#f9faf3 0%,transparent 100%)" aria-hidden="true"></div>
+        <!-- Bottom gradient mask -->
+        <div class="absolute inset-x-0 bottom-0 z-10 pointer-events-none" style="height:90px;background:linear-gradient(to top,#f9faf3 0%,transparent 100%)" aria-hidden="true"></div>
+        <!-- Center selection lines -->
+        <div class="absolute inset-x-8 z-20 pointer-events-none" style="top:50%;margin-top:-30px;height:60px;border-top:1px solid rgba(45,51,30,0.2);border-bottom:1px solid rgba(45,51,30,0.2)" aria-hidden="true"></div>
+        <!-- Items container -->
+        <div id="drum-inner" class="absolute w-full" style="will-change:transform;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Ingredients Grid for Selected Month -->
+    <section aria-labelledby="ingredients-heading" class="mb-12">
+      <div class="flex items-baseline justify-between border-b border-primary/20 pb-2 mb-6">
+        <h2 id="ingredients-heading" class="font-headline text-sm uppercase tracking-widest font-bold text-primary">Field &amp; Larder</h2>
+        <span id="season-sublabel" class="font-body italic text-sm text-primary/60"></span>
+      </div>
+
+      <div id="ingredients-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-1">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 pt-8 border-t border-primary/20">
+        <button
+          class="w-full py-4 bg-primary text-surface font-headline uppercase tracking-[0.2em] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-3"
+          onclick="location.href='ingredient.html'"
+        >
+          Explore Seasonal Ingredients
+          <span class="material-symbols-outlined text-lg" aria-hidden="true">arrow_forward</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Nav -->
+  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 bg-surface border-t border-primary/20" role="navigation" aria-label="Tab navigation">
+    <a href="index.html" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
+      <span class="material-symbols-outlined mb-1" aria-hidden="true">calendar_today</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">In Season</span>
+    </a>
+    <a href="wheel.html" class="flex flex-col items-center justify-center text-primary font-bold border-t-2 border-primary -mt-[1px] pt-2 pb-4 transition-all duration-300" aria-current="page">
+      <span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1;" aria-hidden="true">inventory_2</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">The Larder</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
+      <span class="material-symbols-outlined mb-1" aria-hidden="true">search</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">Search</span>
+    </a>
+  </footer>
+
+  <script>
+    // ─── Data ───────────────────────────────────────────────────────────────────
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const SEASONS = ['Deep Winter','Late Winter','Early Spring','Spring','Late Spring','Early Summer','Summer','High Summer','Early Autumn','Autumn','Late Autumn','Early Winter'];
+    const SEASON_IMAGES = [
+      'https://picsum.photos/seed/winter1/300/300',
+      'https://picsum.photos/seed/winter2/300/300',
+      'https://picsum.photos/seed/earlyspring/300/300',
+      'https://picsum.photos/seed/spring1/300/300',
+      'https://picsum.photos/seed/latespring/300/300',
+      'https://picsum.photos/seed/earlysummer/300/300',
+      'https://picsum.photos/seed/summer1/300/300',
+      'https://picsum.photos/seed/highsummer/300/300',
+      'https://picsum.photos/seed/earlyautumn/300/300',
+      'https://picsum.photos/seed/autumn1/300/300',
+      'https://picsum.photos/seed/lateautumn/300/300',
+      'https://picsum.photos/seed/earlywinter/300/300',
+    ];
+
+    const SEASONAL = {
+      0:  ['Kale','Leeks','Parsnips','Swede','Brussels Sprouts','Celeriac','Turnips','Blood Orange','Forced Rhubarb'],
+      1:  ['Purple Sprouting Broccoli','Forced Rhubarb','Blood Orange','Chicory','Leeks','Celeriac','Kale','Parsnips'],
+      2:  ['Wild Garlic','Watercress','Spring Onions','Spinach','Purple Sprouting','Sorrel','Radishes','Chicory'],
+      3:  ['Asparagus','Rhubarb','Jersey Royals','Spring Cabbage','Morel Mushrooms','Wild Garlic','Watercress','Sorrel'],
+      4:  ['Asparagus','Wild Garlic','Jersey Royals','Elderflower','Radishes','Spring Onions','Gooseberries','Spinach'],
+      5:  ['Elderflower','Strawberries','Peas','Broad Beans','Courgettes','Lettuce','Gooseberries','New Potatoes'],
+      6:  ['Raspberries','Blackcurrants','Runner Beans','Courgettes','Tomatoes','Peas','Cucumber','Sweetcorn'],
+      7:  ['Heirloom Tomatoes','Sweetcorn','Figs','Plums','Peaches','Aubergine','Peppers','Courgettes','Blackberries'],
+      8:  ['Blackberries','Damsons','Apples','Butternut Squash','Wild Mushrooms','Sweetcorn','Figs','Cobnuts'],
+      9:  ['Pumpkin','Quince','Chestnuts','Wild Mushrooms','Celeriac','Kale','Damsons','Apples','Medlars'],
+      10: ['Parsnips','Turnips','Cranberries','Quince','Brussels Sprouts','Swede','Celeriac','Leeks','Cavolo Nero'],
+      11: ['Brussels Sprouts','Chestnuts','Parsnips','Red Cabbage','Clementines','Kale','Swede','Forced Rhubarb'],
+    };
+
+    // ─── Wheel state ────────────────────────────────────────────────────────────
+    const LABEL_RADIUS = 122;
+    let wheelRotation = 0;   // degrees
+    let isDragging = false;
+    let dragStartAngle = 0;
+    let dragStartRotation = 0;
+    let lastAngle = 0;
+    let lastTime = 0;
+    let animFrame = null;
+    let currentMonthIndex = new Date().getMonth(); // start at current month
+
+    const svg = document.getElementById('wheel-svg');
+
+    function getSVGAngle(clientX, clientY) {
+      const rect = svg.getBoundingClientRect();
+      return Math.atan2(clientY - (rect.top + rect.height / 2), clientX - (rect.left + rect.width / 2)) * 180 / Math.PI;
+    }
+
+    function renderWheel(rotation) {
+      const els = MONTHS.map((_, i) => document.getElementById(`m${i}`));
+      els.forEach((el, i) => {
+        const angleDeg = i * 30 + rotation;
+        const angleRad = (angleDeg - 90) * Math.PI / 180;
+        const x = LABEL_RADIUS * Math.cos(angleRad);
+        const y = LABEL_RADIUS * Math.sin(angleRad);
+
+        // Distance from top (0° offset = at the top after -90 correction)
+        const norm = ((angleDeg % 360) + 360) % 360;
+        const dist = Math.min(norm, 360 - norm); // 0 = top, 180 = bottom
+
+        const isActive = dist < 18;
+        const opacity = Math.max(0.18, 1 - dist / 145);
+        const size = isActive ? 13.5 : Math.max(6.5, 13.5 - dist / 22);
+        const weight = isActive ? 700 : 400;
+        const spacing = isActive ? 3 : 1;
+
+        el.setAttribute('x', x.toFixed(2));
+        el.setAttribute('y', y.toFixed(2));
+        el.setAttribute('font-size', size.toFixed(1));
+        el.setAttribute('font-weight', weight);
+        el.setAttribute('fill-opacity', opacity.toFixed(2));
+        el.setAttribute('letter-spacing', spacing);
+      });
+    }
+
+    function getActiveMonthIndex(rotation) {
+      const norm = ((-rotation % 360) + 360) % 360;
+      return Math.round(norm / 30) % 12;
+    }
+
+    function snapToMonth() {
+      const target = getActiveMonthIndex(wheelRotation);
+      let targetRot = -(target * 30);
+
+      // Shortest path
+      let delta = targetRot - wheelRotation;
+      while (delta > 180) delta -= 360;
+      while (delta < -180) delta += 360;
+
+      const start = wheelRotation;
+      const end = wheelRotation + delta;
+      const duration = 340;
+      const t0 = performance.now();
+
+      function animate(now) {
+        const t = Math.min((now - t0) / duration, 1);
+        const e = 1 - Math.pow(1 - t, 3);
+        wheelRotation = start + (end - start) * e;
+        renderWheel(wheelRotation);
+        if (t < 1) {
+          animFrame = requestAnimationFrame(animate);
+        } else {
+          wheelRotation = end;
+          renderWheel(wheelRotation);
+          currentMonthIndex = getActiveMonthIndex(wheelRotation);
+          updateAll();
+        }
+      }
+      if (animFrame) cancelAnimationFrame(animFrame);
+      animFrame = requestAnimationFrame(animate);
+    }
+
+    // Drag events
+    svg.addEventListener('mousedown', e => {
+      e.preventDefault();
+      if (animFrame) cancelAnimationFrame(animFrame);
+      isDragging = true;
+      dragStartAngle = getSVGAngle(e.clientX, e.clientY);
+      dragStartRotation = wheelRotation;
+      lastAngle = dragStartAngle;
+      lastTime = performance.now();
+    });
+
+    svg.addEventListener('touchstart', e => {
+      if (animFrame) cancelAnimationFrame(animFrame);
+      isDragging = true;
+      dragStartAngle = getSVGAngle(e.touches[0].clientX, e.touches[0].clientY);
+      dragStartRotation = wheelRotation;
+      lastAngle = dragStartAngle;
+      lastTime = performance.now();
+    }, { passive: true });
+
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const now = performance.now();
+      const a = getSVGAngle(e.clientX, e.clientY);
+      wheelRotation = dragStartRotation + (a - dragStartAngle);
+      lastAngle = a; lastTime = now;
+      renderWheel(wheelRotation);
+    });
+
+    document.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      const now = performance.now();
+      const a = getSVGAngle(e.touches[0].clientX, e.touches[0].clientY);
+      wheelRotation = dragStartRotation + (a - dragStartAngle);
+      lastAngle = a; lastTime = now;
+      renderWheel(wheelRotation);
+    }, { passive: true });
+
+    document.addEventListener('mouseup', () => { if (!isDragging) return; isDragging = false; snapToMonth(); });
+    document.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; snapToMonth(); });
+
+    // Keyboard support for wheel
+    svg.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        currentMonthIndex = (currentMonthIndex - 1 + 12) % 12;
+        wheelRotation = -(currentMonthIndex * 30);
+        renderWheel(wheelRotation);
+        updateAll();
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        currentMonthIndex = (currentMonthIndex + 1) % 12;
+        wheelRotation = -(currentMonthIndex * 30);
+        renderWheel(wheelRotation);
+        updateAll();
+      }
+    });
+
+    // ─── Ingredient Drum ────────────────────────────────────────────────────────
+    const ITEM_H = 60;
+    let drumIndex = 0;
+    let drumDragStartY = null;
+    let drumDragStartIndex = 0;
+
+    const drumViewport = document.getElementById('drum-viewport');
+    const drumInner = document.getElementById('drum-inner');
+
+    function buildDrum(items) {
+      drumInner.innerHTML = items.map((item, i) =>
+        `<div class="drum-item flex items-center justify-center px-6" style="height:${ITEM_H}px" role="option" id="${i===0?'drum-active':''}" aria-selected="${i===0}">
+          <span class="item-text font-headline uppercase text-primary text-center leading-none" data-index="${i}">${item}</span>
+        </div>`
+      ).join('');
+    }
+
+    function setDrumIndex(index, animated = true) {
+      const items = SEASONAL[currentMonthIndex];
+      drumIndex = Math.max(0, Math.min(items.length - 1, index));
+      const vh = drumViewport.clientHeight || 260;
+      const offset = vh / 2 - drumIndex * ITEM_H - ITEM_H / 2;
+      drumInner.style.transition = animated ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+      drumInner.style.transform = `translateY(${offset}px)`;
+
+      // Update active item id + aria
+      drumInner.querySelectorAll('.drum-item').forEach((el, i) => {
+        el.id = i === drumIndex ? 'drum-active' : '';
+        el.setAttribute('aria-selected', i === drumIndex ? 'true' : 'false');
+      });
+      drumViewport.setAttribute('aria-activedescendant', 'drum-active');
+
+      // Update styles
+      drumInner.querySelectorAll('.item-text').forEach((el, i) => {
+        const d = Math.abs(i - drumIndex);
+        el.style.opacity = d === 0 ? '1' : d === 1 ? '0.5' : d === 2 ? '0.22' : '0.08';
+        el.style.fontSize = d === 0 ? '1.875rem' : d === 1 ? '1.25rem' : d === 2 ? '0.875rem' : '0.7rem';
+        el.style.fontWeight = d === 0 ? '800' : '400';
+        el.style.letterSpacing = d === 0 ? '-0.03em' : '0.05em';
+        el.style.transition = 'all 0.25s ease';
+      });
+    }
+
+    // Drum touch/mouse scroll
+    drumViewport.addEventListener('mousedown', e => {
+      drumDragStartY = e.clientY;
+      drumDragStartIndex = drumIndex;
+    });
+    drumViewport.addEventListener('touchstart', e => {
+      drumDragStartY = e.touches[0].clientY;
+      drumDragStartIndex = drumIndex;
+    }, { passive: true });
+
+    document.addEventListener('mousemove', e => {
+      if (drumDragStartY === null) return;
+      const delta = drumDragStartY - e.clientY;
+      const indexDelta = Math.round(delta / ITEM_H);
+      setDrumIndex(drumDragStartIndex + indexDelta, false);
+    });
+    document.addEventListener('touchmove', e => {
+      if (drumDragStartY === null) return;
+      const delta = drumDragStartY - e.touches[0].clientY;
+      const indexDelta = Math.round(delta / ITEM_H);
+      setDrumIndex(drumDragStartIndex + indexDelta, false);
+    }, { passive: true });
+
+    document.addEventListener('mouseup', e => {
+      if (drumDragStartY === null) return;
+      const delta = drumDragStartY - e.clientY;
+      const indexDelta = Math.round(delta / ITEM_H);
+      drumIndex = Math.max(0, Math.min(SEASONAL[currentMonthIndex].length - 1, drumDragStartIndex + indexDelta));
+      setDrumIndex(drumIndex, true);
+      drumDragStartY = null;
+    });
+    document.addEventListener('touchend', e => {
+      if (drumDragStartY === null) return;
+      const delta = drumDragStartY - e.changedTouches[0].clientY;
+      const indexDelta = Math.round(delta / ITEM_H);
+      drumIndex = Math.max(0, Math.min(SEASONAL[currentMonthIndex].length - 1, drumDragStartIndex + indexDelta));
+      setDrumIndex(drumIndex, true);
+      drumDragStartY = null;
+    });
+
+    // Keyboard for drum
+    drumViewport.addEventListener('keydown', e => {
+      if (e.key === 'ArrowUp') { e.preventDefault(); setDrumIndex(drumIndex - 1); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); setDrumIndex(drumIndex + 1); }
+    });
+
+    // Scroll wheel support for drum
+    drumViewport.addEventListener('wheel', e => {
+      e.preventDefault();
+      setDrumIndex(drumIndex + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: false });
+
+    // ─── Ingredient Grid ────────────────────────────────────────────────────────
+    function renderGrid() {
+      const items = SEASONAL[currentMonthIndex];
+      const grid = document.getElementById('ingredients-grid');
+      grid.innerHTML = items.map(item =>
+        `<a href="ingredient.html" class="ingredient-card group flex flex-col gap-1 py-4 border-b border-primary/15 cursor-pointer">
+          <div class="flex items-baseline justify-between">
+            <h3 class="font-headline text-xl text-primary -tracking-wide group-hover:underline underline-offset-2">${item}</h3>
+            <span class="material-symbols-outlined text-primary/30 text-base group-hover:text-primary/70 transition-colors" aria-hidden="true">arrow_forward</span>
+          </div>
+        </a>`
+      ).join('');
+    }
+
+    // ─── Update all sections when month changes ──────────────────────────────────
+    function updateAll() {
+      // Wheel aria
+      svg.setAttribute('aria-valuetext', MONTH_NAMES[currentMonthIndex]);
+      svg.setAttribute('aria-valuenow', currentMonthIndex);
+
+      // Labels
+      document.getElementById('month-label').textContent = MONTH_NAMES[currentMonthIndex];
+      document.getElementById('season-label').textContent = SEASONS[currentMonthIndex];
+      document.getElementById('season-sublabel').textContent = SEASONS[currentMonthIndex];
+
+      // Center image
+      document.getElementById('season-img').setAttribute('href', SEASON_IMAGES[currentMonthIndex]);
+
+      // Drum rebuild
+      drumIndex = 0;
+      buildDrum(SEASONAL[currentMonthIndex]);
+      setDrumIndex(0, false);
+
+      // Grid
+      renderGrid();
+    }
+
+    // ─── Init ────────────────────────────────────────────────────────────────────
+    wheelRotation = -(currentMonthIndex * 30);
+    renderWheel(wheelRotation);
+    updateAll();
+  </script>
+</body>
+</html>

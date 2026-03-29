@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — In Season Now</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2D331E",
+            "surface": "#f9faf3",
+            "background": "#f9faf3",
+            "surface-container": "#ecefe5",
+            "surface-container-low": "#f2f5ec",
+            "surface-container-high": "#e6eadf",
+            "primary-container": "#dde7bd",
+            "outline": "#777c73",
+            "outline-variant": "#aeb4a9",
+          },
+          fontFamily: {
+            "headline": ["Newsreader", "serif"],
+            "body": ["Noto Serif", "serif"],
+            "label": ["Newsreader", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; line-height: 1;
+    }
+    body { background-color: #f9faf3; color: #2D331E; -webkit-font-smoothing: antialiased; }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track { animation: ticker 28s linear infinite; }
+
+    .hero-slide { transition: opacity 1s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track { animation: none; }
+      .hero-slide { transition: none; }
+    }
+  </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-primary min-h-screen flex flex-col">
+
+  <!-- Top Nav -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-surface border-b border-primary/20" role="navigation" aria-label="Main navigation">
+    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Open menu">
+      <span class="material-symbols-outlined text-primary" aria-hidden="true">menu</span>
+    </button>
+    <a href="index.html" class="font-headline text-[1.75rem] font-extrabold uppercase tracking-tight text-primary" aria-label="LARDER home">LARDER</a>
+    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Shopping bag">
+      <span class="material-symbols-outlined text-primary" aria-hidden="true">shopping_bag</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col items-center justify-center px-6 pt-24 pb-32 max-w-5xl mx-auto w-full text-center">
+
+    <!-- Season Label -->
+    <div class="mb-10">
+      <span class="font-label text-primary uppercase tracking-[0.2em] text-[0.6875rem] font-medium border-b border-primary/30 pb-2 mb-4 inline-block">Current Harvest Cycle</span>
+      <h2 class="font-headline text-[3.5rem] md:text-[5rem] leading-[0.9] font-extrabold uppercase tracking-tighter text-primary mt-4">
+        In Season Now
+      </h2>
+    </div>
+
+    <!-- Hero Slideshow -->
+    <div
+      class="relative w-full aspect-[4/5] md:aspect-[16/9] mb-8 overflow-hidden cursor-pointer"
+      id="hero"
+      onclick="location.href='ingredient.html'"
+      role="button"
+      tabindex="0"
+      aria-label="View featured ingredient: Wild Garlic"
+      onkeydown="if(event.key==='Enter')location.href='ingredient.html'"
+    >
+      <div class="hero-slide absolute inset-0 opacity-100" data-label="Wild Garlic">
+        <img src="https://picsum.photos/seed/wildgarlic/1200/800" alt="Wild Garlic" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
+            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Wild Garlic</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-slide absolute inset-0 opacity-0" data-label="Jersey Royals">
+        <img src="https://picsum.photos/seed/jerseyroyals/1200/800" alt="Jersey Royals" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
+            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Jersey Royals</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-slide absolute inset-0 opacity-0" data-label="Asparagus">
+        <img src="https://picsum.photos/seed/asparagusspring/1200/800" alt="Asparagus" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
+            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Asparagus</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide indicators -->
+      <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10" role="tablist" aria-label="Hero slides">
+        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary transition-opacity" onclick="event.stopPropagation();goToSlide(0)" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary/35 transition-opacity" onclick="event.stopPropagation();goToSlide(1)" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary/35 transition-opacity" onclick="event.stopPropagation();goToSlide(2)" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+      </div>
+    </div>
+
+    <!-- Editorial Subline -->
+    <div class="max-w-xl mx-auto">
+      <p class="font-body italic text-[1.125rem] md:text-[1.25rem] text-primary leading-relaxed">
+        'A curated archive of nature's immediate offerings.'
+      </p>
+      <div class="h-px bg-primary/25 mt-8"></div>
+    </div>
+
+  </main>
+
+  <!-- Coming Soon Ticker -->
+  <div class="fixed bottom-16 left-0 w-full bg-surface-container/90 backdrop-blur-md border-t border-primary/20 py-3 z-40 overflow-hidden" aria-label="Coming soon ingredients" aria-live="off">
+    <div class="flex items-center gap-4 px-6">
+      <span class="font-label text-primary font-bold uppercase tracking-widest text-[0.6875rem] flex-shrink-0">Coming Soon :</span>
+      <div class="overflow-hidden flex-1">
+        <div class="ticker-track flex gap-12 whitespace-nowrap">
+          <span class="flex gap-12 font-body italic text-primary text-sm">
+            <span>Elderflower <span class="opacity-30 mx-2">•</span> Late May</span>
+            <span>Gooseberries <span class="opacity-30 mx-2">•</span> Mid June</span>
+            <span>Broad Beans <span class="opacity-30 mx-2">•</span> Late June</span>
+            <span>Strawberries <span class="opacity-30 mx-2">•</span> June</span>
+            <span>Raspberries <span class="opacity-30 mx-2">•</span> July</span>
+            <span>Sweetcorn <span class="opacity-30 mx-2">•</span> August</span>
+            <span class="mr-12"></span>
+          </span>
+          <span class="flex gap-12 font-body italic text-primary text-sm" aria-hidden="true">
+            <span>Elderflower <span class="opacity-30 mx-2">•</span> Late May</span>
+            <span>Gooseberries <span class="opacity-30 mx-2">•</span> Mid June</span>
+            <span>Broad Beans <span class="opacity-30 mx-2">•</span> Late June</span>
+            <span>Strawberries <span class="opacity-30 mx-2">•</span> June</span>
+            <span>Raspberries <span class="opacity-30 mx-2">•</span> July</span>
+            <span>Sweetcorn <span class="opacity-30 mx-2">•</span> August</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 bg-surface border-t border-primary/20" role="navigation" aria-label="Tab navigation">
+    <a href="index.html" class="flex flex-col items-center justify-center text-primary font-bold border-t-2 border-primary -mt-[1px] pt-2 pb-4 transition-all duration-300" aria-current="page">
+      <span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1;" aria-hidden="true">calendar_today</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">In Season</span>
+    </a>
+    <a href="wheel.html" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
+      <span class="material-symbols-outlined mb-1" aria-hidden="true">inventory_2</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">The Larder</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
+      <span class="material-symbols-outlined mb-1" aria-hidden="true">search</span>
+      <span class="font-label text-[0.6875rem] uppercase tracking-widest">Search</span>
+    </a>
+  </footer>
+
+  <!-- Decorative Corner Spine Text -->
+  <div class="fixed top-20 left-6 pointer-events-none hidden md:block" aria-hidden="true">
+    <span class="font-label text-[0.55rem] text-primary uppercase tracking-tighter [writing-mode:vertical-rl] opacity-35">VOL 04 / ISSUE 02 / SPRING '25</span>
+  </div>
+  <div class="fixed top-20 right-6 pointer-events-none hidden md:block" aria-hidden="true">
+    <span class="font-label text-[0.55rem] text-primary uppercase tracking-tighter [writing-mode:vertical-rl] opacity-35">COORDINATES: 51.5074° N, 0.1278° W</span>
+  </div>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slide-dot');
+
+    function goToSlide(n) {
+      slides[current].style.opacity = '0';
+      dots[current].classList.replace('bg-primary', 'bg-primary/35');
+      dots[current].setAttribute('aria-selected', 'false');
+      current = (n + slides.length) % slides.length;
+      slides[current].style.opacity = '1';
+      dots[current].classList.replace('bg-primary/35', 'bg-primary');
+      dots[current].setAttribute('aria-selected', 'true');
+      const label = slides[current].dataset.label;
+      document.getElementById('hero').setAttribute('aria-label', `View featured ingredient: ${label}`);
+    }
+
+    setInterval(() => goToSlide(current + 1), 5500);
+  </script>
+</body>
+</html>

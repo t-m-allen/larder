@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — Wild Garlic Pesto</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#d9e2cc",
+            "primary": "#2D331E",
+            "on-surface": "#2D331E",
+            "surface": "#d9e2cc",
+            "outline": "#b7c2a7",
+          },
+          fontFamily: {
+            "headline": ["Newsreader", "serif"],
+            "body": ["Cormorant Garamond", "serif"],
+            "label": ["Cormorant Garamond", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0px", lg: "0px", xl: "0px", full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; line-height: 1;
+    }
+    body { background-color: #d9e2cc; color: #2D331E; font-family: 'Cormorant Garamond', serif; -webkit-font-smoothing: antialiased; }
+    .distingue { font-family: 'Newsreader', serif; font-weight: 800; font-variation-settings: "opsz" 72; letter-spacing: -0.05em; line-height: 0.85; text-transform: uppercase; }
+    .editorial { font-family: 'Cormorant Garamond', serif; }
+    .step-img { filter: grayscale(1) contrast(1.15) brightness(0.85); mix-blend-mode: multiply; }
+    .ingredient-row { transition: background-color 0.1s ease; }
+    .ingredient-row:hover { background-color: rgba(45,51,30,0.04); }
+
+    /* Sticky ingredient column on large screens */
+    @media (min-width: 1024px) {
+      .sticky-aside { position: sticky; top: 6rem; }
+    }
+  </style>
+</head>
+<body class="bg-background text-primary selection:bg-on-surface selection:text-background">
+
+  <!-- Top Nav -->
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-background border-b border-outline" role="banner">
+    <a href="ingredient.html" class="flex items-center gap-2 text-primary hover:opacity-70 transition-opacity" aria-label="Back to ingredient">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+    </a>
+    <a href="index.html" class="distingue text-xl tracking-widest" aria-label="LARDER home">LARDER</a>
+    <button class="text-primary hover:opacity-70 transition-opacity" aria-label="Shopping bag">
+      <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
+    </button>
+  </header>
+
+  <main class="pt-24 pb-32 px-6 max-w-5xl mx-auto">
+
+    <!-- Hero Section -->
+    <section class="mb-10" aria-labelledby="recipe-heading">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+        <div class="lg:col-span-8">
+          <span class="distingue italic text-[10px] tracking-[0.3em] opacity-75 mb-2 block" style="font-weight:400;font-style:italic">Recipe No. 001 / Spring Forage</span>
+          <h1 id="recipe-heading" class="distingue text-[4rem] md:text-[6.5rem] lg:text-[8rem] leading-[0.8] text-on-surface">
+            Wild<br/>Garlic<br/>Pesto
+          </h1>
+        </div>
+        <div class="lg:col-span-4 border-l border-outline pl-6 py-2">
+          <p class="editorial text-lg italic leading-snug text-on-surface">
+            Raw and vivid. A no-cook method that preserves the volatile aromatics of foraged leaves. Ready in under ten minutes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specs -->
+    <section class="border-t border-b border-outline py-5 mb-14 grid grid-cols-2 md:grid-cols-4 gap-4" aria-label="Recipe specifications">
+      <div>
+        <span class="distingue italic text-[10px] tracking-wide text-on-surface/65 block mb-1" style="font-weight:400">Prep Time</span>
+        <span class="editorial text-xl italic font-medium">10 Minutes</span>
+      </div>
+      <div>
+        <span class="distingue italic text-[10px] tracking-wide text-on-surface/65 block mb-1" style="font-weight:400">Total Time</span>
+        <span class="editorial text-xl italic font-medium">10 Minutes</span>
+      </div>
+      <div>
+        <span class="distingue italic text-[10px] tracking-wide text-on-surface/65 block mb-1" style="font-weight:400">Yield</span>
+        <span class="editorial text-xl italic font-medium">01 Jar / 250ml</span>
+      </div>
+      <div>
+        <span class="distingue italic text-[10px] tracking-wide text-on-surface/65 block mb-1" style="font-weight:400">Difficulty</span>
+        <span class="editorial text-xl italic font-medium">Simple</span>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+      <!-- Ingredients Aside -->
+      <aside class="lg:col-span-4 sticky-aside h-fit" aria-labelledby="larder-heading">
+        <h2 id="larder-heading" class="distingue font-bold text-2xl tracking-tight mb-6">The Larder</h2>
+        <ul class="space-y-0" role="list">
+          <li class="ingredient-row py-3 border-t border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Wild Garlic Leaves</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">100g</span>
+          </li>
+          <li class="ingredient-row py-3 border-t border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Pine Nuts, toasted</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">50g</span>
+          </li>
+          <li class="ingredient-row py-3 border-t border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Aged Parmesan</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">60g</span>
+          </li>
+          <li class="ingredient-row py-3 border-t border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Cold-pressed Rapeseed Oil</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">120ml</span>
+          </li>
+          <li class="ingredient-row py-3 border-t border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Maldon Sea Salt</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">Generous pinch</span>
+          </li>
+          <li class="ingredient-row py-3 border-t border-b border-outline flex justify-between items-baseline">
+            <span class="editorial text-lg">Lemon Juice</span>
+            <span class="distingue italic text-sm tracking-widest" style="font-weight:400">½ lemon</span>
+          </li>
+        </ul>
+
+        <div class="mt-7 bg-on-surface/5 p-5 border border-outline">
+          <span class="distingue italic text-[10px] tracking-widest text-on-surface/65 block mb-2" style="font-weight:400">Forager's Note</span>
+          <p class="editorial text-base italic leading-relaxed">
+            "Pick only from areas free of dog traffic. Confirm identification by smell — if it doesn't smell of garlic, do not use it."
+          </p>
+        </div>
+      </aside>
+
+      <!-- Method Section -->
+      <section class="lg:col-span-8" aria-labelledby="method-heading">
+        <h2 id="method-heading" class="distingue font-bold text-2xl tracking-tight mb-8">The Method</h2>
+        <div class="space-y-14">
+
+          <!-- Step 01 -->
+          <div class="flex flex-col md:flex-row gap-5">
+            <div class="distingue text-[3.5rem] font-bold text-on-surface/18 leading-none w-16 flex-shrink-0" aria-hidden="true">01</div>
+            <div class="flex-1">
+              <h3 class="distingue italic tracking-[0.1em] text-[10px] text-on-surface/70 mb-2" style="font-weight:400">Prepare the Leaves</h3>
+              <p class="editorial text-xl leading-relaxed">
+                Wash the wild garlic thoroughly under cold running water. Dry well — excess moisture will dilute the pesto and shorten its shelf life. Remove any yellowed or damaged leaves.
+              </p>
+            </div>
+          </div>
+
+          <!-- Visual Break -->
+          <div class="w-full aspect-[16/7] overflow-hidden">
+            <img
+              class="step-img w-full h-full object-cover"
+              src="https://picsum.photos/seed/pestostep/1200/400"
+              alt="Wild garlic leaves being washed and dried"
+            />
+          </div>
+
+          <!-- Step 02 -->
+          <div class="flex flex-col md:flex-row gap-5">
+            <div class="distingue text-[3.5rem] font-bold text-on-surface/18 leading-none w-16 flex-shrink-0" aria-hidden="true">02</div>
+            <div class="flex-1">
+              <h3 class="distingue italic tracking-[0.1em] text-[10px] text-on-surface/70 mb-2" style="font-weight:400">Build the Emulsion</h3>
+              <p class="editorial text-xl leading-relaxed">
+                Add the leaves, toasted pine nuts and lemon juice to a food processor. Pulse roughly five times — you want texture, not a smooth purée. With the motor running, drizzle in the rapeseed oil slowly until emulsified.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 03 -->
+          <div class="flex flex-col md:flex-row gap-5">
+            <div class="distingue text-[3.5rem] font-bold text-on-surface/18 leading-none w-16 flex-shrink-0" aria-hidden="true">03</div>
+            <div class="flex-1">
+              <h3 class="distingue italic tracking-[0.1em] text-[10px] text-on-surface/70 mb-2" style="font-weight:400">Finish &amp; Season</h3>
+              <p class="editorial text-xl leading-relaxed">
+                Fold in the grated parmesan by hand with a spatula — do not blitz it in. Season aggressively with Maldon salt, taste, and adjust with more lemon if the garlic flavour feels heavy. Transfer to a sterilised jar, seal with a thin layer of oil.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 04 -->
+          <div class="flex flex-col md:flex-row gap-5">
+            <div class="distingue text-[3.5rem] font-bold text-on-surface/18 leading-none w-16 flex-shrink-0" aria-hidden="true">04</div>
+            <div class="flex-1">
+              <h3 class="distingue italic tracking-[0.1em] text-[10px] text-on-surface/70 mb-2" style="font-weight:400">Store &amp; Serve</h3>
+              <p class="editorial text-xl leading-relaxed">
+                Refrigerate immediately. Use within seven days. Excellent tossed through fresh pasta with pecorino, spread on sourdough with ricotta, or stirred into a spring vegetable broth at the last moment before serving.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Serving Suggestions -->
+        <div class="mt-12 p-6 border border-outline bg-on-surface/4">
+          <h3 class="distingue text-sm tracking-widest mb-4 text-on-surface">Serve With</h3>
+          <div class="grid grid-cols-3 gap-3">
+            <a href="ingredient.html" class="editorial italic text-sm text-center p-3 border border-outline hover:bg-on-surface/5 transition-colors cursor-pointer">Fresh Pasta</a>
+            <a href="ingredient.html" class="editorial italic text-sm text-center p-3 border border-outline hover:bg-on-surface/5 transition-colors cursor-pointer">Sourdough Toast</a>
+            <a href="ingredient.html" class="editorial italic text-sm text-center p-3 border border-outline hover:bg-on-surface/5 transition-colors cursor-pointer">Jersey Royals</a>
+          </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="mt-14 pt-8 border-t border-outline flex flex-col md:flex-row justify-between items-stretch gap-3">
+          <button class="flex-1 px-8 py-4 bg-outline text-on-surface distingue font-bold uppercase tracking-widest text-[10px] hover:bg-on-surface hover:text-background transition-colors duration-300">
+            Add to Shopping List
+          </button>
+          <button class="flex-1 px-8 py-4 border border-on-surface text-on-surface distingue font-bold uppercase tracking-widest text-[10px] hover:bg-on-surface hover:text-background transition-colors duration-300">
+            Share Recipe
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Bottom Nav (Mobile) -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-background border-t border-outline" role="navigation" aria-label="Tab navigation">
+    <a href="index.html" class="flex flex-col items-center justify-center text-on-surface border-t border-on-surface -mt-[1px] pt-2">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;" aria-hidden="true">eco</span>
+      <span class="distingue text-[8px] tracking-widest mt-1" style="font-weight:700">In Season</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-on-surface/50 pt-2 hover:text-on-surface transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">bookmark</span>
+      <span class="distingue text-[8px] tracking-widest mt-1" style="font-weight:700">Saved</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-on-surface/50 pt-2 hover:text-on-surface transition-colors">
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <span class="distingue text-[8px] tracking-widest mt-1" style="font-weight:700">Search</span>
+    </a>
+  </nav>
+
+  <!-- Desktop spine label -->
+  <div class="hidden lg:flex fixed left-6 top-1/2 -rotate-90 origin-left items-center gap-4" aria-hidden="true">
+    <span class="distingue tracking-[0.4em] text-[10px] text-on-surface/45" style="font-weight:400">ISSUE NO. 04 — SPRING HARVEST</span>
+    <div class="w-16 h-px bg-outline"></div>
+  </div>
+
+</body>
+</html>

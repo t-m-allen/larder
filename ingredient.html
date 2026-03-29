@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — Wild Garlic</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#d8dfc8",
+            "primary": "#2D331E",
+            "on-surface": "#2D331E",
+            "surface": "#d8dfc8",
+            "outline-variant": "rgba(45,51,30,0.18)",
+          },
+          fontFamily: {
+            "headline": ["Newsreader", "serif"],
+            "body": ["Cormorant Garamond", "serif"],
+            "label": ["Newsreader", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0px", lg: "0px", xl: "0px", full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; line-height: 1;
+    }
+    body { background-color: #d8dfc8; color: #2D331E; font-family: 'Cormorant Garamond', serif; -webkit-font-smoothing: antialiased; }
+    .distingue { font-family: 'Newsreader', serif; font-weight: 800; font-variation-settings: "opsz" 72; letter-spacing: -0.05em; line-height: 0.85; text-transform: uppercase; }
+    .editorial { font-family: 'Cormorant Garamond', serif; }
+    .divider { border-bottom: 1px solid rgba(45,51,30,0.18); }
+    .nav-active { color: #2D331E; border-top: 2px solid #2D331E; }
+    .recipe-row { transition: transform 0.2s ease; }
+    .recipe-row:hover .recipe-title { text-decoration: underline; text-underline-offset: 4px; }
+    .recipe-row:hover .recipe-num { opacity: 1 !important; }
+    .hero-img { filter: grayscale(1) brightness(0.88); transition: filter 0.7s ease; }
+    .hero-img:hover { filter: grayscale(0) brightness(1); }
+  </style>
+</head>
+<body class="bg-background text-primary selection:bg-primary selection:text-background">
+
+  <!-- Top Nav -->
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-background/92 backdrop-blur-sm divider" style="border-bottom:1px solid rgba(45,51,30,0.18)" role="banner">
+    <a href="index.html" class="flex items-center gap-2 text-primary hover:opacity-70 transition-opacity" aria-label="Back to home">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+    </a>
+    <a href="index.html" class="distingue text-xl tracking-widest" aria-label="LARDER home">LARDER</a>
+    <button class="text-primary hover:opacity-70 transition-opacity" aria-label="Shopping bag">
+      <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
+    </button>
+  </header>
+
+  <main class="pt-24 pb-28 px-6 max-w-screen-xl mx-auto">
+
+    <!-- Hero Section -->
+    <section class="mb-10 divider pb-6">
+      <div class="flex flex-col gap-4">
+        <div>
+          <span class="distingue text-[10px] tracking-[0.4em] opacity-70 mb-2 block">Archive // 014 — Spring</span>
+          <h1 class="distingue text-[4.5rem] md:text-9xl leading-[0.8] mb-4">
+            Wild<br/>Garlic
+          </h1>
+        </div>
+        <div class="max-w-md">
+          <p class="editorial text-xl italic leading-snug text-primary/90">
+            Found in ancient woodland and shaded river banks from late March to May. Its broad, fragrant leaves carry the clean, green bite of garlic without the heat.
+          </p>
+        </div>
+        <!-- Season badge -->
+        <div class="flex gap-4 flex-wrap">
+          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">Peak: April – May</span>
+          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">British Woodland</span>
+          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">Foraged</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Image -->
+    <section class="mb-10">
+      <div class="aspect-[16/10] w-full overflow-hidden">
+        <img
+          class="hero-img w-full h-full object-cover"
+          src="https://picsum.photos/seed/wildgarlichero/1200/750"
+          alt="Wild garlic leaves growing on a woodland floor"
+        />
+      </div>
+      <p class="editorial italic text-xs text-primary/50 mt-2">Hover to see in colour — Allium ursinum, British Woodland, April</p>
+    </section>
+
+    <!-- Technical Notes -->
+    <section class="divider py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">In Season</span>
+        <span class="editorial text-lg italic font-medium text-primary">Mar – May</span>
+      </div>
+      <div>
+        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Where to Find</span>
+        <span class="editorial text-lg italic font-medium text-primary">Woodland floors</span>
+      </div>
+      <div>
+        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Pairs With</span>
+        <span class="editorial text-lg italic font-medium text-primary">Butter, lemon, pasta</span>
+      </div>
+      <div>
+        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Intensity</span>
+        <span class="editorial text-lg italic font-medium text-primary">Mild — Medium</span>
+      </div>
+    </section>
+
+    <!-- Recipes Header -->
+    <section class="mb-4">
+      <div class="flex justify-between items-baseline divider pb-2">
+        <h2 class="distingue text-lg tracking-widest">Selected Preparations</h2>
+        <span class="editorial italic text-xs opacity-60">Sorted by simplicity</span>
+      </div>
+    </section>
+
+    <!-- Recipe List -->
+    <section class="space-y-0 mb-16" aria-label="Recipe list">
+
+      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
+        <div class="w-9 flex-shrink-0">
+          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">01</span>
+        </div>
+        <div class="flex-1">
+          <div class="mb-2">
+            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Wild Garlic Pesto</h3>
+            <span class="editorial italic text-sm opacity-70">10 mins / No cook</span>
+          </div>
+          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
+            Raw leaves blended with toasted pine nuts, aged parmesan and cold-pressed rapeseed oil. Vivid green. Keeps for a week in the fridge.
+          </p>
+        </div>
+        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
+        </div>
+      </article>
+
+      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
+        <div class="w-9 flex-shrink-0">
+          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">02</span>
+        </div>
+        <div class="flex-1">
+          <div class="mb-2">
+            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Jersey Royal &amp; Wild Garlic Soup</h3>
+            <span class="editorial italic text-sm opacity-70">15 mins prep / 25 mins cook</span>
+          </div>
+          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
+            New-season Jersey Royals simmered in chicken stock, finished with a generous handful of wild garlic leaves stirred in at the last moment.
+          </p>
+        </div>
+        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
+        </div>
+      </article>
+
+      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
+        <div class="w-9 flex-shrink-0">
+          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">03</span>
+        </div>
+        <div class="flex-1">
+          <div class="mb-2">
+            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Wildgarlic Butter</h3>
+            <span class="editorial italic text-sm opacity-70">10 mins / Refrigerate overnight</span>
+          </div>
+          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
+            Leaves macerated in salted cultured butter, rolled in parchment and frozen in logs. Use to finish grilled fish, steak or melt over new potatoes.
+          </p>
+        </div>
+        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Footer Quote -->
+    <footer class="mb-12 text-center">
+      <p class="distingue text-5xl md:text-7xl opacity-8 leading-[0.8] mb-6" style="opacity:0.08;" aria-hidden="true">The Forest Floor</p>
+      <div class="max-w-md mx-auto border-t border-primary/18 pt-6" style="border-color:rgba(45,51,30,0.18)">
+        <p class="editorial italic text-sm opacity-65">"Wild garlic signals the true arrival of spring — before the asparagus, before the elderflower. To find it is to stand in the right place at the right time."</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 backdrop-blur-md border-t" style="background:rgba(216,223,200,0.95);border-color:rgba(45,51,30,0.12)" role="navigation" aria-label="Tab navigation">
+    <a href="index.html" class="nav-active flex flex-col items-center justify-center -mt-[1px] pt-2">
+      <span class="material-symbols-outlined mb-1 scale-90" style="font-variation-settings:'FILL' 1;" aria-hidden="true">eco</span>
+      <span class="distingue text-[8px] tracking-widest">In Season</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-primary/45 pt-2 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 scale-90" aria-hidden="true">bookmark</span>
+      <span class="distingue text-[8px] tracking-widest">Saved</span>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-primary/45 pt-2 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 scale-90" aria-hidden="true">search</span>
+      <span class="distingue text-[8px] tracking-widest">Search</span>
+    </a>
+  </nav>
+
+  <!-- Desktop spine label -->
+  <div class="hidden lg:flex fixed left-6 top-1/2 -rotate-90 origin-left items-center gap-4" aria-hidden="true">
+    <span class="distingue tracking-[0.4em] text-[10px] text-primary/50 font-normal" style="font-weight:400">ISSUE NO. 04 — SPRING HARVEST</span>
+    <div class="w-16 h-px bg-primary/20"></div>
+  </div>
+
+</body>
+</html>

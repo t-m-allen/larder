@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — Search</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary:"#2D331E", surface:"#f9faf3", "surface-container":"#ecefe5", "primary-container":"#dde7bd" },
+          fontFamily: { headline:["Newsreader","serif"], body:["Noto Serif","serif"], label:["Newsreader","serif"] },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; display:inline-block; line-height:1; }
+    body { background:#f9faf3; color:#2D331E; -webkit-font-smoothing:antialiased; }
+    #search-input::placeholder { color:rgba(45,51,30,0.35); }
+    #search-input:focus { outline:none; box-shadow:none; }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .result-item { animation:fadeUp 0.25s ease forwards; opacity:0; transition:background 0.12s ease; }
+    .result-item:hover { background:#ecefe5; }
+  </style>
+</head>
+<body class="font-body min-h-screen">
+
+  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 h-14 bg-surface border-b border-primary/20">
+    <button class="p-2 hover:bg-surface-container rounded-sm transition-colors" aria-label="Menu">
+      <span class="material-symbols-outlined text-primary text-xl" aria-hidden="true">menu</span>
+    </button>
+    <a href="index.html" class="font-headline font-extrabold uppercase tracking-tight text-[1.5rem] text-primary">LARDER</a>
+    <div class="w-9"></div>
+  </nav>
+
+  <main class="pt-14 pb-20 max-w-2xl mx-auto px-5">
+
+    <!-- Search input -->
+    <div class="sticky top-14 z-40 bg-surface pt-4 pb-3 border-b border-primary/20">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary/40 text-xl flex-shrink-0" aria-hidden="true">search</span>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Ingredient or recipe..."
+          autocomplete="off"
+          class="flex-1 bg-transparent font-headline font-bold text-[1.375rem] tracking-tight text-primary placeholder:text-primary/30 border-none p-0 focus:ring-0"
+          aria-label="Search ingredients and recipes"
+          oninput="doSearch(this.value)"
+        />
+        <button id="clear-btn" class="hidden text-primary/40 hover:text-primary transition-colors" onclick="clearSearch()" aria-label="Clear search">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-4"></div>
+
+    <!-- Browse all (default state) -->
+    <div id="browse-all" class="mt-2">
+      <p class="font-label font-bold uppercase tracking-widest text-[0.5625rem] text-primary/40 mb-4 mt-6">All Ingredients</p>
+      <div id="browse-grid" class="grid grid-cols-2 gap-x-6 gap-y-1"></div>
+    </div>
+
+  </main>
+
+  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-surface border-t border-primary/20">
+    <a href="index.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">calendar_today</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">In Season</span>
+    </a>
+    <a href="recipes.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">bookmark</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Recipes</span>
+    </a>
+    <a href="search.html" class="flex flex-col items-center justify-center text-primary border-t-2 border-primary -mt-[1px] pt-2 pb-4 px-6" aria-current="page">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" style="font-variation-settings:'FILL' 1;" aria-hidden="true">search</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Search</span>
+    </a>
+  </footer>
+
+  <script>
+  const ALL_INGREDIENTS = [
+    { name:'Apples', season:'Autumn', months:'Sep–Nov', id:'apples' },
+    { name:'Asparagus', season:'Spring', months:'Apr–Jun', id:'asparagus' },
+    { name:'Aubergine', season:'Summer', months:'Jul–Sep', id:'aubergine' },
+    { name:'Blackberries', season:'Autumn', months:'Aug–Oct', id:'blackberries' },
+    { name:'Blackcurrants', season:'Summer', months:'Jun–Aug', id:'blackcurrants' },
+    { name:'Blood Orange', season:'Winter', months:'Jan–Mar', id:'blood-orange' },
+    { name:'Broad Beans', season:'Summer', months:'May–Jul', id:'broad-beans' },
+    { name:'Brussels Sprouts', season:'Winter', months:'Oct–Feb', id:'brussels-sprouts' },
+    { name:'Butternut Squash', season:'Autumn', months:'Sep–Nov', id:'butternut-squash' },
+    { name:'Cavolo Nero', season:'Winter', months:'Oct–Mar', id:'cavolo-nero' },
+    { name:'Celeriac', season:'Autumn–Winter', months:'Sep–Mar', id:'celeriac' },
+    { name:'Chestnuts', season:'Autumn', months:'Oct–Dec', id:'chestnuts' },
+    { name:'Chicory', season:'Winter', months:'Nov–Apr', id:'chicory' },
+    { name:'Clementines', season:'Winter', months:'Nov–Jan', id:'clementines' },
+    { name:'Cobnuts', season:'Autumn', months:'Aug–Oct', id:'cobnuts' },
+    { name:'Courgettes', season:'Summer', months:'Jun–Sep', id:'courgettes' },
+    { name:'Cranberries', season:'Autumn', months:'Oct–Dec', id:'cranberries' },
+    { name:'Cucumber', season:'Summer', months:'Jun–Sep', id:'cucumber' },
+    { name:'Damsons', season:'Autumn', months:'Aug–Oct', id:'damsons' },
+    { name:'Elderflower', season:'Spring', months:'May–Jun', id:'elderflower' },
+    { name:'Figs', season:'Summer', months:'Aug–Oct', id:'figs' },
+    { name:'Forced Rhubarb', season:'Winter', months:'Jan–Mar', id:'forced-rhubarb' },
+    { name:'Gooseberries', season:'Summer', months:'May–Jul', id:'gooseberries' },
+    { name:'Heirloom Tomatoes', season:'Summer', months:'Jul–Sep', id:'heirloom-tomatoes' },
+    { name:'Jersey Royals', season:'Spring', months:'Apr–Jun', id:'jersey-royals' },
+    { name:'Kale', season:'Winter', months:'Oct–Mar', id:'kale' },
+    { name:'Leeks', season:'Autumn–Winter', months:'Sep–Apr', id:'leeks' },
+    { name:'Lettuce', season:'Summer', months:'May–Sep', id:'lettuce' },
+    { name:'Morel Mushrooms', season:'Spring', months:'Mar–May', id:'morel-mushrooms' },
+    { name:'New Potatoes', season:'Summer', months:'May–Aug', id:'new-potatoes' },
+    { name:'Parsnips', season:'Autumn–Winter', months:'Oct–Mar', id:'parsnips' },
+    { name:'Peaches', season:'Summer', months:'Jul–Sep', id:'peaches' },
+    { name:'Peas', season:'Summer', months:'Jun–Aug', id:'peas' },
+    { name:'Peppers', season:'Summer', months:'Jul–Oct', id:'peppers' },
+    { name:'Plums', season:'Summer', months:'Jul–Oct', id:'plums' },
+    { name:'Pumpkin', season:'Autumn', months:'Sep–Dec', id:'pumpkin' },
+    { name:'Purple Sprouting Broccoli', season:'Winter', months:'Feb–Apr', id:'purple-sprouting-broccoli' },
+    { name:'Quince', season:'Autumn', months:'Oct–Nov', id:'quince' },
+    { name:'Radishes', season:'Spring', months:'Mar–May', id:'radishes' },
+    { name:'Raspberries', season:'Summer', months:'Jun–Sep', id:'raspberries' },
+    { name:'Red Cabbage', season:'Autumn', months:'Oct–Jan', id:'red-cabbage' },
+    { name:'Rhubarb', season:'Spring', months:'Mar–Jul', id:'rhubarb' },
+    { name:'Runner Beans', season:'Summer', months:'Jul–Sep', id:'runner-beans' },
+    { name:'Sorrel', season:'Spring', months:'Mar–Jun', id:'sorrel' },
+    { name:'Spinach', season:'Spring', months:'Mar–Jun', id:'spinach' },
+    { name:'Spring Cabbage', season:'Spring', months:'Apr–Jun', id:'spring-cabbage' },
+    { name:'Spring Onions', season:'Spring', months:'Mar–Jul', id:'spring-onions' },
+    { name:'Strawberries', season:'Summer', months:'Jun–Sep', id:'strawberries' },
+    { name:'Swede', season:'Winter', months:'Oct–Mar', id:'swede' },
+    { name:'Sweetcorn', season:'Summer', months:'Jul–Sep', id:'sweetcorn' },
+    { name:'Tomatoes', season:'Summer', months:'Jul–Sep', id:'tomatoes' },
+    { name:'Turnips', season:'Autumn–Winter', months:'Oct–Mar', id:'turnips' },
+    { name:'Watercress', season:'Spring', months:'Mar–Jun', id:'watercress' },
+    { name:'Wild Garlic', season:'Spring', months:'Mar–May', id:'wild-garlic' },
+    { name:'Wild Mushrooms', season:'Autumn', months:'Sep–Nov', id:'wild-mushrooms' },
+  ].sort((a,b) => a.name.localeCompare(b.name));
+
+  const SEASON_DOT = {
+    'Spring':       '#c8e0a0',
+    'Summer':       '#e8d88a',
+    'Autumn':       '#d4a870',
+    'Winter':       '#a8c0b0',
+    'Spring–Summer':'#d0e8a8',
+    'Autumn–Winter':'#b8b898',
+  };
+
+  function dot(season) {
+    const color = SEASON_DOT[season] || '#c0c8b8';
+    return `<span class="inline-block w-2 h-2 rounded-full flex-shrink-0 mt-1.5" style="background:${color};border:1px solid rgba(45,51,30,0.2)"></span>`;
+  }
+
+  function itemHTML(ing, delay = 0) {
+    return `
+      <a href="ingredient.html?id=${ing.id}"
+         class="result-item flex items-start gap-2.5 py-3 px-2 -mx-2 rounded-sm cursor-pointer"
+         style="animation-delay:${delay}ms;border-bottom:1px solid rgba(45,51,30,0.1)"
+      >
+        ${dot(ing.season)}
+        <div class="flex-1 min-w-0">
+          <p class="font-headline font-bold text-[1rem] leading-tight text-primary">${ing.name}</p>
+          <p class="font-body italic text-xs text-primary/45">${ing.season} · ${ing.months}</p>
+        </div>
+        <span class="material-symbols-outlined text-primary/25 text-base mt-0.5 flex-shrink-0" aria-hidden="true">arrow_forward</span>
+      </a>`;
+  }
+
+  function doSearch(q) {
+    const results = document.getElementById('results');
+    const browse = document.getElementById('browse-all');
+    const clear = document.getElementById('clear-btn');
+    q = q.trim().toLowerCase();
+
+    if (!q) {
+      results.innerHTML = '';
+      browse.classList.remove('hidden');
+      clear.classList.add('hidden');
+      return;
+    }
+
+    clear.classList.remove('hidden');
+    browse.classList.add('hidden');
+
+    const matches = ALL_INGREDIENTS.filter(i =>
+      i.name.toLowerCase().includes(q) || i.season.toLowerCase().includes(q)
+    );
+
+    if (matches.length === 0) {
+      results.innerHTML = `
+        <div class="text-center py-16">
+          <p class="font-body italic text-primary/40 mb-2">Nothing found for "<span class="text-primary/70">${q}</span>"</p>
+          <p class="font-label font-bold uppercase tracking-widest text-[0.5625rem] text-primary/30">Try a season name or ingredient</p>
+        </div>`;
+      return;
+    }
+
+    results.innerHTML = `
+      <p class="font-label font-bold uppercase tracking-widest text-[0.5625rem] text-primary/40 mb-3">${matches.length} result${matches.length !== 1 ? 's' : ''}</p>
+      ${matches.map((ing, i) => itemHTML(ing, i * 35)).join('')}`;
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('search-input');
+    input.value = '';
+    doSearch('');
+    input.focus();
+  }
+
+  // Render browse grid
+  document.getElementById('browse-grid').innerHTML =
+    ALL_INGREDIENTS.map((ing, i) => itemHTML(ing, i * 18)).join('');
+  </script>
+</body>
+</html>

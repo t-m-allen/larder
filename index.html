@@ -1,165 +1,156 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LARDER — In Season Now</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <title>LARDER — In Season</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <script>
     tailwind.config = {
-      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "primary": "#2D331E",
-            "surface": "#f9faf3",
-            "background": "#f9faf3",
+            primary: "#2D331E",
+            surface: "#f9faf3",
             "surface-container": "#ecefe5",
-            "surface-container-low": "#f2f5ec",
-            "surface-container-high": "#e6eadf",
             "primary-container": "#dde7bd",
-            "outline": "#777c73",
-            "outline-variant": "#aeb4a9",
           },
           fontFamily: {
-            "headline": ["Newsreader", "serif"],
-            "body": ["Noto Serif", "serif"],
-            "label": ["Newsreader", "serif"],
-          },
-          borderRadius: {
-            DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "9999px",
+            headline: ["Newsreader","serif"],
+            body: ["Noto Serif","serif"],
+            label: ["Newsreader","serif"],
           },
         },
       },
     };
   </script>
   <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-      display: inline-block; line-height: 1;
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; display:inline-block; line-height:1; }
+    body { background:#f9faf3; color:#2D331E; -webkit-font-smoothing:antialiased; }
+
+    .month-sector { transition: fill 0.18s ease; }
+    .month-sector:hover { cursor: pointer; }
+
+    @keyframes flourish {
+      from { opacity:0; transform:translateY(16px) scale(0.96); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
     }
-    body { background-color: #f9faf3; color: #2D331E; -webkit-font-smoothing: antialiased; }
+    .flour-item {
+      opacity:0;
+      animation: flourish 0.38s ease forwards;
+    }
 
     @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% { transform:translateX(0); }
+      100% { transform:translateX(-50%); }
     }
-    .ticker-track { animation: ticker 28s linear infinite; }
+    .ticker-track { animation: ticker 32s linear infinite; }
 
-    .hero-slide { transition: opacity 1s ease; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .ticker-track { animation: none; }
-      .hero-slide { transition: none; }
+    @media (prefers-reduced-motion:reduce) {
+      .flour-item { animation:none; opacity:1; }
+      .ticker-track { animation:none; }
     }
+
+    .pill-btn { transition: background 0.15s ease, color 0.15s ease; }
   </style>
 </head>
-<body class="font-body selection:bg-primary-container selection:text-primary min-h-screen flex flex-col">
+<body class="font-body min-h-screen flex flex-col">
 
   <!-- Top Nav -->
-  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-surface border-b border-primary/20" role="navigation" aria-label="Main navigation">
-    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Open menu">
-      <span class="material-symbols-outlined text-primary" aria-hidden="true">menu</span>
+  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 h-14 bg-surface border-b border-primary/20">
+    <button class="p-2 hover:bg-surface-container rounded-sm transition-colors" aria-label="Menu">
+      <span class="material-symbols-outlined text-primary text-xl" aria-hidden="true">menu</span>
     </button>
-    <a href="index.html" class="font-headline text-[1.75rem] font-extrabold uppercase tracking-tight text-primary" aria-label="LARDER home">LARDER</a>
-    <button class="p-2 hover:bg-surface-container transition-colors rounded-sm" aria-label="Shopping bag">
-      <span class="material-symbols-outlined text-primary" aria-hidden="true">shopping_bag</span>
-    </button>
+    <a href="index.html" class="font-headline font-extrabold uppercase tracking-tight text-[1.5rem] text-primary">LARDER</a>
+    <a href="recipes.html" class="p-2 hover:bg-surface-container rounded-sm transition-colors" aria-label="Saved recipes">
+      <span class="material-symbols-outlined text-primary text-xl" aria-hidden="true">bookmark</span>
+    </a>
   </nav>
 
-  <!-- Main Content -->
-  <main class="flex-grow flex flex-col items-center justify-center px-6 pt-24 pb-32 max-w-5xl mx-auto w-full text-center">
+  <main class="flex-grow pt-14 pb-20 overflow-x-hidden">
 
-    <!-- Season Label -->
-    <div class="mb-10">
-      <span class="font-label text-primary uppercase tracking-[0.2em] text-[0.6875rem] font-medium border-b border-primary/30 pb-2 mb-4 inline-block">Current Harvest Cycle</span>
-      <h2 class="font-headline text-[3.5rem] md:text-[5rem] leading-[0.9] font-extrabold uppercase tracking-tighter text-primary mt-4">
-        In Season Now
-      </h2>
-    </div>
-
-    <!-- Hero Slideshow -->
-    <div
-      class="relative w-full aspect-[4/5] md:aspect-[16/9] mb-8 overflow-hidden cursor-pointer"
-      id="hero"
-      onclick="location.href='ingredient.html'"
-      role="button"
-      tabindex="0"
-      aria-label="View featured ingredient: Wild Garlic"
-      onkeydown="if(event.key==='Enter')location.href='ingredient.html'"
-    >
-      <div class="hero-slide absolute inset-0 opacity-100" data-label="Wild Garlic">
-        <img src="https://picsum.photos/seed/wildgarlic/1200/800" alt="Wild Garlic" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
-            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Wild Garlic</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-slide absolute inset-0 opacity-0" data-label="Jersey Royals">
-        <img src="https://picsum.photos/seed/jerseyroyals/1200/800" alt="Jersey Royals" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
-            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Jersey Royals</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-slide absolute inset-0 opacity-0" data-label="Asparagus">
-        <img src="https://picsum.photos/seed/asparagusspring/1200/800" alt="Asparagus" class="w-full h-full object-cover contrast-[1.05] saturate-[0.85]"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <div class="bg-surface/15 backdrop-blur-[2px] px-6 py-3 border border-primary/10">
-            <h3 class="font-headline text-[3rem] md:text-[7rem] font-extrabold uppercase tracking-tighter text-primary leading-none">Asparagus</h3>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide indicators -->
-      <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10" role="tablist" aria-label="Hero slides">
-        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary transition-opacity" onclick="event.stopPropagation();goToSlide(0)" role="tab" aria-selected="true" aria-label="Slide 1"></button>
-        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary/35 transition-opacity" onclick="event.stopPropagation();goToSlide(1)" role="tab" aria-selected="false" aria-label="Slide 2"></button>
-        <button class="slide-dot w-1.5 h-1.5 rounded-full bg-primary/35 transition-opacity" onclick="event.stopPropagation();goToSlide(2)" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+    <!-- Toggle -->
+    <div class="flex justify-center pt-5 pb-2 px-4">
+      <div class="flex border border-primary/25 rounded-sm overflow-hidden" role="group" aria-label="View toggle">
+        <button id="btn-season" class="pill-btn px-5 py-2 font-label font-bold uppercase tracking-widest text-[0.625rem] bg-primary text-surface" onclick="setView('season')">In Season</button>
+        <button id="btn-all" class="pill-btn px-5 py-2 font-label font-bold uppercase tracking-widest text-[0.625rem] bg-surface text-primary/60" onclick="setView('all')">All Seasons</button>
       </div>
     </div>
 
-    <!-- Editorial Subline -->
-    <div class="max-w-xl mx-auto">
-      <p class="font-body italic text-[1.125rem] md:text-[1.25rem] text-primary leading-relaxed">
-        'A curated archive of nature's immediate offerings.'
-      </p>
-      <div class="h-px bg-primary/25 mt-8"></div>
+    <!-- ── IN SEASON VIEW ─────────────────────────────── -->
+    <div id="view-season">
+
+      <!-- Wheel -->
+      <div class="flex flex-col items-center px-4 pt-4 pb-2">
+        <svg
+          id="wheel"
+          viewBox="-155 -155 310 310"
+          width="300" height="300"
+          class="overflow-visible"
+          role="group"
+          aria-label="Month selector wheel"
+        >
+          <!-- Sectors and labels injected by JS -->
+          <!-- Outer decorative ring -->
+          <circle cx="0" cy="0" r="148" fill="none" stroke="#2D331E" stroke-width="0.4" opacity="0.3"/>
+          <!-- Inner ring -->
+          <circle cx="0" cy="0" r="62" fill="#f9faf3" stroke="#2D331E" stroke-width="0.5" opacity="0.4"/>
+          <!-- Center content -->
+          <text id="center-season" x="0" y="-8" text-anchor="middle" dominant-baseline="middle" font-family="Newsreader,serif" font-size="9" font-weight="700" letter-spacing="3" fill="#2D331E" opacity="0.55" class="pointer-events-none select-none uppercase"></text>
+          <text id="center-month" x="0" y="8" text-anchor="middle" dominant-baseline="middle" font-family="Newsreader,serif" font-size="13" font-weight="800" fill="#2D331E" class="pointer-events-none select-none uppercase"></text>
+        </svg>
+        <p class="font-label italic text-[0.75rem] text-primary/45 -mt-1">Tap a month</p>
+      </div>
+
+      <!-- Ingredient Panel -->
+      <div class="px-5 max-w-2xl mx-auto w-full">
+        <!-- Header (shown once a month is selected) -->
+        <div id="ingredient-header" class="flex items-baseline justify-between border-b border-primary/20 pb-2 mb-5 hidden">
+          <h2 id="ingredient-title" class="font-headline font-bold text-sm uppercase tracking-widest text-primary"></h2>
+          <span id="ingredient-count" class="font-body italic text-xs text-primary/55"></span>
+        </div>
+
+        <!-- Grid -->
+        <div id="ingredient-grid" class="grid grid-cols-3 gap-3 sm:grid-cols-4"></div>
+
+        <!-- Prompt (shown before selection) -->
+        <div id="pre-select" class="text-center py-12">
+          <p class="font-body italic text-primary/40 text-sm">Select a month to reveal what's in season</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── ALL SEASONS VIEW ───────────────────────────── -->
+    <div id="view-all" class="hidden px-5 max-w-2xl mx-auto pt-4">
+      <!-- Injected by JS -->
     </div>
 
   </main>
 
-  <!-- Coming Soon Ticker -->
-  <div class="fixed bottom-16 left-0 w-full bg-surface-container/90 backdrop-blur-md border-t border-primary/20 py-3 z-40 overflow-hidden" aria-label="Coming soon ingredients" aria-live="off">
-    <div class="flex items-center gap-4 px-6">
-      <span class="font-label text-primary font-bold uppercase tracking-widest text-[0.6875rem] flex-shrink-0">Coming Soon :</span>
+  <!-- Coming Soon Ticker (only in season view) -->
+  <div id="ticker-bar" class="fixed bottom-14 left-0 w-full bg-surface-container/90 backdrop-blur-md border-t border-primary/15 py-2 z-40 overflow-hidden">
+    <div class="flex items-center gap-4 px-5">
+      <span class="font-label font-bold uppercase tracking-widest text-[0.5625rem] text-primary flex-shrink-0">Coming :</span>
       <div class="overflow-hidden flex-1">
-        <div class="ticker-track flex gap-12 whitespace-nowrap">
-          <span class="flex gap-12 font-body italic text-primary text-sm">
-            <span>Elderflower <span class="opacity-30 mx-2">•</span> Late May</span>
-            <span>Gooseberries <span class="opacity-30 mx-2">•</span> Mid June</span>
-            <span>Broad Beans <span class="opacity-30 mx-2">•</span> Late June</span>
-            <span>Strawberries <span class="opacity-30 mx-2">•</span> June</span>
-            <span>Raspberries <span class="opacity-30 mx-2">•</span> July</span>
-            <span>Sweetcorn <span class="opacity-30 mx-2">•</span> August</span>
-            <span class="mr-12"></span>
+        <div class="ticker-track flex whitespace-nowrap">
+          <span class="flex gap-10 font-body italic text-primary text-xs mr-10">
+            <span>Elderflower <span class="opacity-25 mx-1">·</span> Late May</span>
+            <span>Strawberries <span class="opacity-25 mx-1">·</span> June</span>
+            <span>Broad Beans <span class="opacity-25 mx-1">·</span> Late June</span>
+            <span>Raspberries <span class="opacity-25 mx-1">·</span> July</span>
+            <span>Courgettes <span class="opacity-25 mx-1">·</span> July</span>
+            <span>Sweetcorn <span class="opacity-25 mx-1">·</span> August</span>
           </span>
-          <span class="flex gap-12 font-body italic text-primary text-sm" aria-hidden="true">
-            <span>Elderflower <span class="opacity-30 mx-2">•</span> Late May</span>
-            <span>Gooseberries <span class="opacity-30 mx-2">•</span> Mid June</span>
-            <span>Broad Beans <span class="opacity-30 mx-2">•</span> Late June</span>
-            <span>Strawberries <span class="opacity-30 mx-2">•</span> June</span>
-            <span>Raspberries <span class="opacity-30 mx-2">•</span> July</span>
-            <span>Sweetcorn <span class="opacity-30 mx-2">•</span> August</span>
+          <span class="flex gap-10 font-body italic text-primary text-xs mr-10" aria-hidden="true">
+            <span>Elderflower <span class="opacity-25 mx-1">·</span> Late May</span>
+            <span>Strawberries <span class="opacity-25 mx-1">·</span> June</span>
+            <span>Broad Beans <span class="opacity-25 mx-1">·</span> Late June</span>
+            <span>Raspberries <span class="opacity-25 mx-1">·</span> July</span>
+            <span>Courgettes <span class="opacity-25 mx-1">·</span> July</span>
+            <span>Sweetcorn <span class="opacity-25 mx-1">·</span> August</span>
           </span>
         </div>
       </div>
@@ -167,47 +158,417 @@
   </div>
 
   <!-- Bottom Nav -->
-  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 bg-surface border-t border-primary/20" role="navigation" aria-label="Tab navigation">
-    <a href="index.html" class="flex flex-col items-center justify-center text-primary font-bold border-t-2 border-primary -mt-[1px] pt-2 pb-4 transition-all duration-300" aria-current="page">
-      <span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1;" aria-hidden="true">calendar_today</span>
-      <span class="font-label text-[0.6875rem] uppercase tracking-widest">In Season</span>
+  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-surface border-t border-primary/20">
+    <a href="index.html" class="flex flex-col items-center justify-center text-primary border-t-2 border-primary -mt-[1px] pt-2 pb-4 px-6" aria-current="page">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" style="font-variation-settings:'FILL' 1;" aria-hidden="true">calendar_today</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">In Season</span>
     </a>
-    <a href="wheel.html" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
-      <span class="material-symbols-outlined mb-1" aria-hidden="true">inventory_2</span>
-      <span class="font-label text-[0.6875rem] uppercase tracking-widest">The Larder</span>
+    <a href="recipes.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">bookmark</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Recipes</span>
     </a>
-    <a href="#" class="flex flex-col items-center justify-center text-primary/60 pt-2 pb-4 hover:text-primary transition-all duration-300">
-      <span class="material-symbols-outlined mb-1" aria-hidden="true">search</span>
-      <span class="font-label text-[0.6875rem] uppercase tracking-widest">Search</span>
+    <a href="search.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">search</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Search</span>
     </a>
   </footer>
 
-  <!-- Decorative Corner Spine Text -->
-  <div class="fixed top-20 left-6 pointer-events-none hidden md:block" aria-hidden="true">
-    <span class="font-label text-[0.55rem] text-primary uppercase tracking-tighter [writing-mode:vertical-rl] opacity-35">VOL 04 / ISSUE 02 / SPRING '25</span>
-  </div>
-  <div class="fixed top-20 right-6 pointer-events-none hidden md:block" aria-hidden="true">
-    <span class="font-label text-[0.55rem] text-primary uppercase tracking-tighter [writing-mode:vertical-rl] opacity-35">COORDINATES: 51.5074° N, 0.1278° W</span>
-  </div>
-
   <script>
-    let current = 0;
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slide-dot');
+  // ─── DATA ────────────────────────────────────────────────────────────────────
+  const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const SEASON_NAMES = ['Winter','Winter','Spring','Spring','Spring','Summer','Summer','Summer','Autumn','Autumn','Autumn','Winter'];
+  const SEASON_FILLS = [
+    '#dde3d8','#dde3d8',               // Winter (Jan,Feb)
+    '#e3edd4','#e3edd4','#e3edd4',     // Spring (Mar-May)
+    '#eae5cf','#eae5cf','#eae5cf',     // Summer (Jun-Aug)
+    '#e5ddd1','#e5ddd1','#e5ddd1',     // Autumn (Sep-Nov)
+    '#dde3d8',                          // Winter (Dec)
+  ];
 
-    function goToSlide(n) {
-      slides[current].style.opacity = '0';
-      dots[current].classList.replace('bg-primary', 'bg-primary/35');
-      dots[current].setAttribute('aria-selected', 'false');
-      current = (n + slides.length) % slides.length;
-      slides[current].style.opacity = '1';
-      dots[current].classList.replace('bg-primary/35', 'bg-primary');
-      dots[current].setAttribute('aria-selected', 'true');
-      const label = slides[current].dataset.label;
-      document.getElementById('hero').setAttribute('aria-label', `View featured ingredient: ${label}`);
-    }
+  const SEASONAL = {
+    0:  ['Kale','Leeks','Parsnips','Swede','Brussels Sprouts','Celeriac','Forced Rhubarb','Blood Orange'],
+    1:  ['Purple Sprouting Broccoli','Forced Rhubarb','Chicory','Leeks','Kale','Parsnips','Blood Orange'],
+    2:  ['Wild Garlic','Watercress','Spring Onions','Spinach','Radishes','Sorrel','Purple Sprouting Broccoli'],
+    3:  ['Asparagus','Rhubarb','Jersey Royals','Wild Garlic','Spinach','Watercress','Morel Mushrooms','Spring Cabbage'],
+    4:  ['Asparagus','Wild Garlic','Jersey Royals','Elderflower','Radishes','Gooseberries','Spinach','Spring Onions'],
+    5:  ['Elderflower','Strawberries','Peas','Broad Beans','Courgettes','Lettuce','Gooseberries','New Potatoes'],
+    6:  ['Raspberries','Blackcurrants','Runner Beans','Courgettes','Tomatoes','Peas','Cucumber','Sweetcorn','Strawberries'],
+    7:  ['Heirloom Tomatoes','Sweetcorn','Figs','Plums','Peaches','Aubergine','Peppers','Blackberries','Courgettes'],
+    8:  ['Blackberries','Damsons','Apples','Butternut Squash','Wild Mushrooms','Sweetcorn','Figs','Cobnuts'],
+    9:  ['Pumpkin','Quince','Chestnuts','Wild Mushrooms','Celeriac','Kale','Apples','Parsnips'],
+    10: ['Parsnips','Turnips','Cranberries','Brussels Sprouts','Swede','Celeriac','Leeks','Kale','Cavolo Nero'],
+    11: ['Brussels Sprouts','Chestnuts','Parsnips','Red Cabbage','Clementines','Kale','Swede','Forced Rhubarb'],
+  };
 
-    setInterval(() => goToSlide(current + 1), 5500);
+  const INGREDIENT_META = {
+    'Kale':                  { d:'brassica',   v:'Cavolo Nero' },
+    'Leeks':                 { d:'bulb',        v:'King Richard' },
+    'Parsnips':              { d:'root',        v:'White Gem' },
+    'Swede':                 { d:'round',       v:'Yellow' },
+    'Brussels Sprouts':      { d:'brassica',    v:'Trafalgar' },
+    'Celeriac':              { d:'round',       v:'Giant Prague' },
+    'Forced Rhubarb':        { d:'stalk',       v:'Timperley' },
+    'Blood Orange':          { d:'citrus',      v:'Moro' },
+    'Purple Sprouting Broccoli':{ d:'brassica', v:'Rudolph' },
+    'Chicory':               { d:'leaf',        v:'Witloof' },
+    'Wild Garlic':           { d:'broadLeaf',   v:'Broad Leaf' },
+    'Watercress':            { d:'leaf',        v:'Nasturtium' },
+    'Spring Onions':         { d:'bulb',        v:'White Lisbon' },
+    'Spinach':               { d:'leaf',        v:'Perpetual' },
+    'Sorrel':                { d:'leaf',        v:'Common' },
+    'Radishes':              { d:'round',       v:'French Breakfast' },
+    'Asparagus':             { d:'spear',       v:'British Green' },
+    'Rhubarb':               { d:'stalk',       v:'Champagne' },
+    'Jersey Royals':         { d:'bulb',        v:'New Potato' },
+    'Spring Cabbage':        { d:'brassica',    v:'Greyhound' },
+    'Morel Mushrooms':       { d:'mushroom',    v:'Wild' },
+    'Elderflower':           { d:'flower',      v:'Common Elder' },
+    'Gooseberries':          { d:'berry',       v:'Invicta' },
+    'Strawberries':          { d:'berry',       v:'British' },
+    'Peas':                  { d:'pod',         v:'Garden' },
+    'Broad Beans':           { d:'pod',         v:'Aquadulce' },
+    'Courgettes':            { d:'stalk',       v:'Defender' },
+    'Lettuce':               { d:'leaf',        v:'Butterhead' },
+    'New Potatoes':          { d:'bulb',        v:'Charlotte' },
+    'Raspberries':           { d:'berry',       v:'Glen Ample' },
+    'Blackcurrants':         { d:'berry',       v:'Ben Sarek' },
+    'Runner Beans':          { d:'pod',         v:'Streamline' },
+    'Tomatoes':              { d:'round',       v:'Mixed Heirloom' },
+    'Heirloom Tomatoes':     { d:'round',       v:'Mixed' },
+    'Cucumber':              { d:'stalk',       v:'Ridge' },
+    'Sweetcorn':             { d:'stalk',       v:'Swift' },
+    'Figs':                  { d:'stoneFruit',  v:'Brown Turkey' },
+    'Plums':                 { d:'stoneFruit',  v:'Victoria' },
+    'Peaches':               { d:'stoneFruit',  v:'Rochester' },
+    'Aubergine':             { d:'round',       v:'Black Beauty' },
+    'Peppers':               { d:'round',       v:'Gypsy' },
+    'Blackberries':          { d:'berry',       v:'Wild' },
+    'Damsons':               { d:'stoneFruit',  v:'Shropshire' },
+    'Apples':                { d:'round',       v:'Cox, Bramley' },
+    'Butternut Squash':      { d:'squash',      v:'Hunter' },
+    'Wild Mushrooms':        { d:'mushroom',    v:'Mixed' },
+    'Cobnuts':               { d:'nut',         v:'Kentish' },
+    'Pumpkin':               { d:'squash',      v:'Crown Prince' },
+    'Quince':                { d:'round',       v:'Vranja' },
+    'Chestnuts':             { d:'nut',         v:'Spanish' },
+    'Medlars':               { d:'stoneFruit',  v:'Nottingham' },
+    'Cranberries':           { d:'berry',       v:'American' },
+    'Red Cabbage':           { d:'brassica',    v:'Rodeo' },
+    'Clementines':           { d:'citrus',      v:'Monreal' },
+    'Turnips':               { d:'root',        v:'White Milan' },
+    'Cavolo Nero':           { d:'brassica',    v:'Black Kale' },
+  };
+
+  // ─── BOTANICAL SVG DRAWINGS ──────────────────────────────────────────────────
+  const D = {
+    leaf: `<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 54C20 44 10 32 14 18C18 4 42 4 46 18C50 32 40 44 30 54Z" stroke="currentColor" stroke-width="1.3"/>
+      <line x1="30" y1="54" x2="30" y2="14" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M30 42C24 36 17 27 15 20" stroke="currentColor" stroke-width="0.55"/>
+      <path d="M30 42C36 36 43 27 45 20" stroke="currentColor" stroke-width="0.55"/>
+      <path d="M30 28C26 24 21 20 18 17" stroke="currentColor" stroke-width="0.45"/>
+      <path d="M30 28C34 24 39 20 42 17" stroke="currentColor" stroke-width="0.45"/>
+    </svg>`,
+
+    broadLeaf: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 56C13 46 6 30 10 17C14 3 46 3 50 17C54 30 47 46 30 56Z" stroke="currentColor" stroke-width="1.3"/>
+      <line x1="30" y1="56" x2="30" y2="13" stroke="currentColor" stroke-width="0.85"/>
+      <path d="M30 46C22 40 13 30 11 22" stroke="currentColor" stroke-width="0.55"/>
+      <path d="M30 46C38 40 47 30 49 22" stroke="currentColor" stroke-width="0.55"/>
+      <path d="M30 34C24 30 17 24 14 18" stroke="currentColor" stroke-width="0.45"/>
+      <path d="M30 34C36 30 43 24 46 18" stroke="currentColor" stroke-width="0.45"/>
+      <path d="M30 22C26 19 22 16 20 14" stroke="currentColor" stroke-width="0.38"/>
+      <path d="M30 22C34 19 38 16 40 14" stroke="currentColor" stroke-width="0.38"/>
+    </svg>`,
+
+    spear: `<svg viewBox="0 0 60 60" fill="none">
+      <line x1="19" y1="58" x2="19" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M15 26Q19 11 23 26" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <line x1="30" y1="58" x2="30" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M26 21Q30 6 34 21" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <line x1="41" y1="58" x2="41" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M37 26Q41 11 45 26" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <line x1="14" y1="44" x2="46" y2="44" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+    </svg>`,
+
+    berry: `<svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="36" r="17" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M23 19L21 10M30 18L30 8M37 19L39 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+      <line x1="14" y1="30" x2="46" y2="30" stroke="currentColor" stroke-width="0.45" opacity="0.5"/>
+      <line x1="14" y1="36" x2="46" y2="36" stroke="currentColor" stroke-width="0.45" opacity="0.5"/>
+      <line x1="14" y1="42" x2="46" y2="42" stroke="currentColor" stroke-width="0.45" opacity="0.5"/>
+      <circle cx="30" cy="36" r="3" stroke="currentColor" stroke-width="0.6" opacity="0.35"/>
+    </svg>`,
+
+    stalk: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M17 58C16 44 17 28 19 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M30 58C29 44 30 28 32 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M43 58C42 44 43 28 45 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M19 10C17 3 12 5 10 10C14 8 17 10 19 10Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <path d="M32 10C30 3 25 5 23 10C27 8 30 10 32 10Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <path d="M45 10C43 3 38 5 36 10C40 8 43 10 45 10Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+    </svg>`,
+
+    root: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 8C37 8 42 15 42 26C42 42 35 54 30 57C25 54 18 42 18 26C18 15 23 8 30 8Z" stroke="currentColor" stroke-width="1.3"/>
+      <line x1="27" y1="8" x2="22" y2="3" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+      <line x1="30" y1="8" x2="30" y2="2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+      <line x1="33" y1="8" x2="38" y2="3" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M18 46C12 49 10 55 12 57" stroke="currentColor" stroke-width="0.7" stroke-linecap="round"/>
+      <path d="M42 46C48 49 50 55 48 57" stroke="currentColor" stroke-width="0.7" stroke-linecap="round"/>
+    </svg>`,
+
+    mushroom: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M7 36Q7 9 30 9Q53 9 53 36Z" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M22 36L22 52C22 54 38 54 38 52L38 36" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="19" cy="23" r="3" stroke="currentColor" stroke-width="0.75"/>
+      <circle cx="30" cy="17" r="3" stroke="currentColor" stroke-width="0.75"/>
+      <circle cx="41" cy="23" r="3" stroke="currentColor" stroke-width="0.75"/>
+    </svg>`,
+
+    round: `<svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="34" r="21" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M30 13C30 7 35 4 35 4C32 7 35 12 30 13Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <path d="M30 13C28 7 23 5 21 8C24 10 27 11 30 13Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+    </svg>`,
+
+    pod: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M7 30C9 15 20 13 30 13C40 13 51 15 53 30C51 45 40 47 30 47C20 47 9 45 7 30Z" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="17" cy="30" r="4.5" stroke="currentColor" stroke-width="0.85"/>
+      <circle cx="30" cy="30" r="4.5" stroke="currentColor" stroke-width="0.85"/>
+      <circle cx="43" cy="30" r="4.5" stroke="currentColor" stroke-width="0.85"/>
+      <path d="M53 30C57 26 59 21 57 17" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+    </svg>`,
+
+    brassica: `<svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="18" r="7" stroke="currentColor" stroke-width="1.1"/>
+      <circle cx="17" cy="26" r="5.5" stroke="currentColor" stroke-width="1"/>
+      <circle cx="43" cy="26" r="5.5" stroke="currentColor" stroke-width="1"/>
+      <circle cx="23" cy="35" r="4.5" stroke="currentColor" stroke-width="0.9"/>
+      <circle cx="37" cy="35" r="4.5" stroke="currentColor" stroke-width="0.9"/>
+      <line x1="30" y1="25" x2="30" y2="58" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M17 52C12 46 10 39 8 34C14 32 21 36 24 41" stroke="currentColor" stroke-width="0.85" fill="none"/>
+      <path d="M43 52C48 46 50 39 52 34C46 32 39 36 36 41" stroke="currentColor" stroke-width="0.85" fill="none"/>
+    </svg>`,
+
+    flower: `<svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="25" r="6" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="30" cy="12" rx="5.5" ry="9" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="30" cy="38" rx="5.5" ry="9" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="17" cy="18" rx="5.5" ry="9" transform="rotate(-60 17 18)" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="43" cy="18" rx="5.5" ry="9" transform="rotate(60 43 18)" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="17" cy="32" rx="5.5" ry="9" transform="rotate(60 17 32)" stroke="currentColor" stroke-width="1"/>
+      <ellipse cx="43" cy="32" rx="5.5" ry="9" transform="rotate(-60 43 32)" stroke="currentColor" stroke-width="1"/>
+      <line x1="30" y1="31" x2="30" y2="58" stroke="currentColor" stroke-width="1.1"/>
+    </svg>`,
+
+    bulb: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 42C17 42 13 33 15 23C17 12 30 8 30 8C30 8 43 12 45 23C47 33 43 42 30 42Z" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M21 42L19 56M30 42L30 57M39 42L41 56" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/>
+      <path d="M27 8L25 2M30 8L30 1M33 8L35 2" stroke="currentColor" stroke-width="0.85" stroke-linecap="round"/>
+    </svg>`,
+
+    squash: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 54C13 54 7 43 9 30C11 17 20 11 30 11C40 11 49 17 51 30C53 43 47 54 30 54Z" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M30 11L28 5C28 3 32 3 32 5L30 11Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <path d="M9 30Q18 19 20 30Q22 41 30 39Q38 37 40 30Q42 23 51 30" stroke="currentColor" stroke-width="0.6" fill="none"/>
+    </svg>`,
+
+    stoneFruit: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 53C13 53 11 36 13 25C16 12 23 9 30 9C37 9 44 12 47 25C49 36 47 53 30 53Z" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M30 9C28 3 23 3 21 7C23 9 27 9 30 9Z" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <path d="M30 53Q28 47 30 42Q32 47 30 53Z" stroke="currentColor" stroke-width="0.7" fill="none"/>
+    </svg>`,
+
+    nut: `<svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 53C17 53 13 44 13 34C13 21 20 13 30 13C40 13 47 21 47 34C47 44 43 53 30 53Z" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M14 28C13 23 13 16 17 12C21 8 25 10 29 13M46 28C47 23 47 16 43 12C39 8 35 10 31 13" stroke="currentColor" stroke-width="0.9"/>
+      <path d="M13 28C16 26 18 26 21 28C23 30 25 30 27 28C29 26 31 26 33 28C35 30 37 30 39 28C41 26 43 26 46 28" stroke="currentColor" stroke-width="0.75" fill="none"/>
+    </svg>`,
+
+    citrus: `<svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="32" r="23" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="30" cy="32" r="16" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+      <path d="M30 9L30 32M30 32L53 32M30 32L14 18M30 32L14 46M30 32L46 18M30 32L46 46" stroke="currentColor" stroke-width="0.55" opacity="0.6"/>
+      <circle cx="30" cy="32" r="4" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M30 9C30 4 34 2 36 3" stroke="currentColor" stroke-width="0.85" stroke-linecap="round"/>
+    </svg>`,
+  };
+
+  function drawing(ingredient) {
+    const meta = INGREDIENT_META[ingredient] || { d:'round', v:'' };
+    return D[meta.d] || D.round;
+  }
+
+  function slug(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+
+  // ─── WHEEL ───────────────────────────────────────────────────────────────────
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const wheelSVG = document.getElementById('wheel');
+  let activeMonth = new Date().getMonth();
+  const sectors = [];
+  const labels = [];
+
+  function sectorPath(i, r1, r2) {
+    const a1 = (i * 30 - 105) * Math.PI / 180;
+    const a2 = (i * 30 - 75) * Math.PI / 180;
+    const f = n => n.toFixed(3);
+    const c1 = Math.cos(a1), s1 = Math.sin(a1);
+    const c2 = Math.cos(a2), s2 = Math.sin(a2);
+    return `M${f(r1*c1)} ${f(r1*s1)} L${f(r2*c1)} ${f(r2*s1)} A${r2} ${r2} 0 0 1 ${f(r2*c2)} ${f(r2*s2)} L${f(r1*c2)} ${f(r1*s2)} A${r1} ${r1} 0 0 0 ${f(r1*c1)} ${f(r1*s1)} Z`;
+  }
+
+  function labelXY(i, r) {
+    const angle = (i * 30 - 90) * Math.PI / 180;
+    return [r * Math.cos(angle), r * Math.sin(angle)];
+  }
+
+  // Build wheel
+  MONTHS.forEach((m, i) => {
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', sectorPath(i, 64, 143));
+    path.setAttribute('fill', SEASON_FILLS[i]);
+    path.setAttribute('stroke', '#2D331E');
+    path.setAttribute('stroke-width', '0.5');
+    path.setAttribute('role', 'button');
+    path.setAttribute('aria-label', `${MONTHS[i]} — ${SEASON_NAMES[i]}`);
+    path.classList.add('month-sector');
+    path.dataset.i = i;
+    path.addEventListener('click', () => selectMonth(i));
+    path.addEventListener('mouseenter', () => { if (i !== activeMonth) path.setAttribute('fill', '#c8d4b4'); });
+    path.addEventListener('mouseleave', () => { if (i !== activeMonth) path.setAttribute('fill', SEASON_FILLS[i]); });
+    // Insert before center elements
+    wheelSVG.insertBefore(path, wheelSVG.querySelector('circle'));
+    sectors.push(path);
+
+    const [lx, ly] = labelXY(i, 106);
+    const t = document.createElementNS(SVG_NS, 'text');
+    t.setAttribute('x', lx.toFixed(3));
+    t.setAttribute('y', ly.toFixed(3));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', '8.5');
+    t.setAttribute('font-family', 'Newsreader,serif');
+    t.setAttribute('font-weight', '600');
+    t.setAttribute('fill', '#2D331E');
+    t.setAttribute('letter-spacing', '1');
+    t.classList.add('pointer-events-none', 'select-none');
+    t.dataset.i = i;
+    t.textContent = m;
+    wheelSVG.appendChild(t);
+    labels.push(t);
+  });
+
+  function updateWheel() {
+    sectors.forEach((p, i) => {
+      if (i === activeMonth) {
+        p.setAttribute('fill', '#2D331E');
+      } else {
+        p.setAttribute('fill', SEASON_FILLS[i]);
+      }
+    });
+    labels.forEach((t, i) => {
+      t.setAttribute('fill', i === activeMonth ? '#f9faf3' : '#2D331E');
+      t.setAttribute('font-weight', i === activeMonth ? '800' : '500');
+    });
+    document.getElementById('center-season').textContent = SEASON_NAMES[activeMonth];
+    document.getElementById('center-month').textContent = MONTHS[activeMonth];
+  }
+
+  // ─── INGREDIENTS ─────────────────────────────────────────────────────────────
+  function renderIngredients(monthIdx) {
+    const items = SEASONAL[monthIdx];
+    const grid = document.getElementById('ingredient-grid');
+    const header = document.getElementById('ingredient-header');
+    const pre = document.getElementById('pre-select');
+    const title = document.getElementById('ingredient-title');
+    const count = document.getElementById('ingredient-count');
+
+    grid.innerHTML = items.map((name, idx) => {
+      const meta = INGREDIENT_META[name] || { d:'round', v:'' };
+      return `
+        <a href="ingredient.html?id=${slug(name)}"
+           class="flour-item flex flex-col items-center text-center gap-2 p-3 hover:bg-surface-container rounded-sm transition-colors cursor-pointer group"
+           style="animation-delay:${idx * 55}ms"
+           aria-label="${name}"
+        >
+          <div class="w-12 h-12 text-primary opacity-80 group-hover:opacity-100 transition-opacity">${drawing(name)}</div>
+          <div>
+            <p class="font-headline font-bold text-[0.7rem] uppercase tracking-wide text-primary leading-tight">${name}</p>
+            <p class="font-body italic text-[0.6rem] text-primary/50 mt-0.5 leading-none">${meta.v}</p>
+          </div>
+        </a>`;
+    }).join('');
+
+    title.textContent = `${MONTH_FULL[monthIdx]} — ${SEASON_NAMES[monthIdx]}`;
+    count.textContent = `${items.length} in season`;
+    header.classList.remove('hidden');
+    pre.classList.add('hidden');
+  }
+
+  function selectMonth(i) {
+    activeMonth = i;
+    updateWheel();
+    renderIngredients(i);
+  }
+
+  // ─── ALL SEASONS VIEW ────────────────────────────────────────────────────────
+  const ALL_SEASONS = [
+    { name: 'Spring', months: [2,3,4], color: '#e3edd4' },
+    { name: 'Summer', months: [5,6,7], color: '#eae5cf' },
+    { name: 'Autumn', months: [8,9,10], color: '#e5ddd1' },
+    { name: 'Winter', months: [0,1,11], color: '#dde3d8' },
+  ];
+
+  function renderAllSeasons() {
+    const container = document.getElementById('view-all');
+    // Deduplicate per season
+    const html = ALL_SEASONS.map(s => {
+      const all = [...new Set(s.months.flatMap(m => SEASONAL[m]))];
+      return `
+        <div class="mb-10">
+          <div class="flex items-center gap-3 border-b border-primary/20 pb-2 mb-4">
+            <div class="w-3 h-3 rounded-full" style="background:${s.color};border:1px solid rgba(45,51,30,0.3)"></div>
+            <h2 class="font-headline font-bold text-sm uppercase tracking-widest text-primary">${s.name}</h2>
+          </div>
+          <div class="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            ${all.map(name => {
+              const meta = INGREDIENT_META[name] || { d:'round', v:'' };
+              return `
+                <a href="ingredient.html?id=${slug(name)}"
+                   class="flex flex-col items-center text-center gap-1.5 p-3 hover:bg-surface-container rounded-sm transition-colors cursor-pointer group">
+                  <div class="w-10 h-10 text-primary opacity-75 group-hover:opacity-100 transition-opacity">${drawing(name)}</div>
+                  <p class="font-headline font-bold text-[0.65rem] uppercase tracking-wide text-primary leading-tight">${name}</p>
+                  <p class="font-body italic text-[0.575rem] text-primary/45 leading-none">${meta.v}</p>
+                </a>`;
+            }).join('')}
+          </div>
+        </div>`;
+    }).join('');
+    container.innerHTML = html;
+  }
+
+  // ─── TOGGLE ──────────────────────────────────────────────────────────────────
+  function setView(v) {
+    const isSeason = v === 'season';
+    document.getElementById('view-season').classList.toggle('hidden', !isSeason);
+    document.getElementById('view-all').classList.toggle('hidden', isSeason);
+    document.getElementById('ticker-bar').classList.toggle('hidden', !isSeason);
+    document.getElementById('btn-season').classList.toggle('bg-primary', isSeason);
+    document.getElementById('btn-season').classList.toggle('text-surface', isSeason);
+    document.getElementById('btn-season').classList.toggle('text-primary/60', !isSeason);
+    document.getElementById('btn-all').classList.toggle('bg-primary', !isSeason);
+    document.getElementById('btn-all').classList.toggle('text-surface', !isSeason);
+    document.getElementById('btn-all').classList.toggle('text-primary/60', isSeason);
+    if (!isSeason) renderAllSeasons();
+  }
+
+  // ─── INIT ────────────────────────────────────────────────────────────────────
+  updateWheel();
+  renderIngredients(activeMonth);
   </script>
 </body>
 </html>

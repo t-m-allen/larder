@@ -1,221 +1,346 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LARDER — Wild Garlic</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+  <title>LARDER — Ingredient</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <script>
     tailwind.config = {
-      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "background": "#d8dfc8",
-            "primary": "#2D331E",
-            "on-surface": "#2D331E",
-            "surface": "#d8dfc8",
-            "outline-variant": "rgba(45,51,30,0.18)",
+            background: "#d8dfc8",
+            primary: "#2D331E",
+            surface: "#d8dfc8",
           },
           fontFamily: {
-            "headline": ["Newsreader", "serif"],
-            "body": ["Cormorant Garamond", "serif"],
-            "label": ["Newsreader", "serif"],
-          },
-          borderRadius: {
-            DEFAULT: "0px", lg: "0px", xl: "0px", full: "9999px",
+            headline: ["Newsreader","serif"],
+            body: ["Cormorant Garamond","serif"],
+            label: ["Newsreader","serif"],
           },
         },
       },
     };
   </script>
   <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-      display: inline-block; line-height: 1;
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; display:inline-block; line-height:1; }
+    body { background:#d8dfc8; color:#2D331E; -webkit-font-smoothing:antialiased; font-family:'Cormorant Garamond',serif; }
+    .distingue { font-family:'Newsreader',serif; font-weight:800; letter-spacing:-0.04em; line-height:0.85; text-transform:uppercase; }
+    .divider { border-bottom:1px solid rgba(45,51,30,0.18); }
+    .recipe-row { transition:transform 0.18s ease; border-bottom:1px solid rgba(45,51,30,0.18); }
+    .recipe-row:hover .recipe-title { text-decoration:underline; text-underline-offset:4px; }
+    .recipe-row:hover .recipe-num { opacity:1 !important; }
+    .recipe-row:hover .arrow-icon { opacity:1 !important; }
+    .nav-active { border-top:2px solid #2D331E; color:#2D331E; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
     }
-    body { background-color: #d8dfc8; color: #2D331E; font-family: 'Cormorant Garamond', serif; -webkit-font-smoothing: antialiased; }
-    .distingue { font-family: 'Newsreader', serif; font-weight: 800; font-variation-settings: "opsz" 72; letter-spacing: -0.05em; line-height: 0.85; text-transform: uppercase; }
-    .editorial { font-family: 'Cormorant Garamond', serif; }
-    .divider { border-bottom: 1px solid rgba(45,51,30,0.18); }
-    .nav-active { color: #2D331E; border-top: 2px solid #2D331E; }
-    .recipe-row { transition: transform 0.2s ease; }
-    .recipe-row:hover .recipe-title { text-decoration: underline; text-underline-offset: 4px; }
-    .recipe-row:hover .recipe-num { opacity: 1 !important; }
-    .hero-img { filter: grayscale(1) brightness(0.88); transition: filter 0.7s ease; }
-    .hero-img:hover { filter: grayscale(0) brightness(1); }
+    .fade-in { animation: fadeUp 0.4s ease forwards; }
   </style>
 </head>
-<body class="bg-background text-primary selection:bg-primary selection:text-background">
+<body>
 
   <!-- Top Nav -->
-  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-background/92 backdrop-blur-sm divider" style="border-bottom:1px solid rgba(45,51,30,0.18)" role="banner">
-    <a href="index.html" class="flex items-center gap-2 text-primary hover:opacity-70 transition-opacity" aria-label="Back to home">
-      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-5 h-14 bg-background/92 backdrop-blur-sm" style="border-bottom:1px solid rgba(45,51,30,0.18)">
+    <a href="index.html" class="flex items-center gap-1 text-primary hover:opacity-65 transition-opacity" aria-label="Back">
+      <span class="material-symbols-outlined text-xl" aria-hidden="true">arrow_back</span>
     </a>
-    <a href="index.html" class="distingue text-xl tracking-widest" aria-label="LARDER home">LARDER</a>
-    <button class="text-primary hover:opacity-70 transition-opacity" aria-label="Shopping bag">
-      <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
-    </button>
+    <a href="index.html" class="distingue text-[1.25rem] tracking-widest" aria-label="LARDER home">LARDER</a>
+    <a href="recipes.html" class="text-primary hover:opacity-65 transition-opacity" aria-label="Saved recipes">
+      <span class="material-symbols-outlined text-xl" aria-hidden="true">bookmark</span>
+    </a>
   </header>
 
-  <main class="pt-24 pb-28 px-6 max-w-screen-xl mx-auto">
-
-    <!-- Hero Section -->
-    <section class="mb-10 divider pb-6">
-      <div class="flex flex-col gap-4">
-        <div>
-          <span class="distingue text-[10px] tracking-[0.4em] opacity-70 mb-2 block">Archive // 014 — Spring</span>
-          <h1 class="distingue text-[4.5rem] md:text-9xl leading-[0.8] mb-4">
-            Wild<br/>Garlic
-          </h1>
-        </div>
-        <div class="max-w-md">
-          <p class="editorial text-xl italic leading-snug text-primary/90">
-            Found in ancient woodland and shaded river banks from late March to May. Its broad, fragrant leaves carry the clean, green bite of garlic without the heat.
-          </p>
-        </div>
-        <!-- Season badge -->
-        <div class="flex gap-4 flex-wrap">
-          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">Peak: April – May</span>
-          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">British Woodland</span>
-          <span class="editorial text-sm text-primary/70 border border-primary/20 px-3 py-1">Foraged</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Image -->
-    <section class="mb-10">
-      <div class="aspect-[16/10] w-full overflow-hidden">
-        <img
-          class="hero-img w-full h-full object-cover"
-          src="https://picsum.photos/seed/wildgarlichero/1200/750"
-          alt="Wild garlic leaves growing on a woodland floor"
-        />
-      </div>
-      <p class="editorial italic text-xs text-primary/50 mt-2">Hover to see in colour — Allium ursinum, British Woodland, April</p>
-    </section>
-
-    <!-- Technical Notes -->
-    <section class="divider py-6 mb-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div>
-        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">In Season</span>
-        <span class="editorial text-lg italic font-medium text-primary">Mar – May</span>
-      </div>
-      <div>
-        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Where to Find</span>
-        <span class="editorial text-lg italic font-medium text-primary">Woodland floors</span>
-      </div>
-      <div>
-        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Pairs With</span>
-        <span class="editorial text-lg italic font-medium text-primary">Butter, lemon, pasta</span>
-      </div>
-      <div>
-        <span class="distingue text-[10px] tracking-wide text-primary/60 block mb-1">Intensity</span>
-        <span class="editorial text-lg italic font-medium text-primary">Mild — Medium</span>
-      </div>
-    </section>
-
-    <!-- Recipes Header -->
-    <section class="mb-4">
-      <div class="flex justify-between items-baseline divider pb-2">
-        <h2 class="distingue text-lg tracking-widest">Selected Preparations</h2>
-        <span class="editorial italic text-xs opacity-60">Sorted by simplicity</span>
-      </div>
-    </section>
-
-    <!-- Recipe List -->
-    <section class="space-y-0 mb-16" aria-label="Recipe list">
-
-      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
-        <div class="w-9 flex-shrink-0">
-          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">01</span>
-        </div>
-        <div class="flex-1">
-          <div class="mb-2">
-            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Wild Garlic Pesto</h3>
-            <span class="editorial italic text-sm opacity-70">10 mins / No cook</span>
-          </div>
-          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
-            Raw leaves blended with toasted pine nuts, aged parmesan and cold-pressed rapeseed oil. Vivid green. Keeps for a week in the fridge.
-          </p>
-        </div>
-        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
-        </div>
-      </article>
-
-      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
-        <div class="w-9 flex-shrink-0">
-          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">02</span>
-        </div>
-        <div class="flex-1">
-          <div class="mb-2">
-            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Jersey Royal &amp; Wild Garlic Soup</h3>
-            <span class="editorial italic text-sm opacity-70">15 mins prep / 25 mins cook</span>
-          </div>
-          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
-            New-season Jersey Royals simmered in chicken stock, finished with a generous handful of wild garlic leaves stirred in at the last moment.
-          </p>
-        </div>
-        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
-        </div>
-      </article>
-
-      <article class="recipe-row group divider flex gap-5 items-start py-7 cursor-pointer" onclick="location.href='recipe.html'">
-        <div class="w-9 flex-shrink-0">
-          <span class="distingue text-3xl opacity-25 recipe-num transition-opacity" aria-hidden="true">03</span>
-        </div>
-        <div class="flex-1">
-          <div class="mb-2">
-            <h3 class="recipe-title distingue text-4xl md:text-5xl leading-[0.85] mb-1">Wildgarlic Butter</h3>
-            <span class="editorial italic text-sm opacity-70">10 mins / Refrigerate overnight</span>
-          </div>
-          <p class="editorial text-base opacity-85 leading-snug max-w-xl">
-            Leaves macerated in salted cultured butter, rolled in parchment and frozen in logs. Use to finish grilled fish, steak or melt over new potatoes.
-          </p>
-        </div>
-        <div class="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-primary" aria-hidden="true">arrow_forward</span>
-        </div>
-      </article>
-
-    </section>
-
-    <!-- Footer Quote -->
-    <footer class="mb-12 text-center">
-      <p class="distingue text-5xl md:text-7xl opacity-8 leading-[0.8] mb-6" style="opacity:0.08;" aria-hidden="true">The Forest Floor</p>
-      <div class="max-w-md mx-auto border-t border-primary/18 pt-6" style="border-color:rgba(45,51,30,0.18)">
-        <p class="editorial italic text-sm opacity-65">"Wild garlic signals the true arrival of spring — before the asparagus, before the elderflower. To find it is to stand in the right place at the right time."</p>
-      </div>
-    </footer>
-
+  <main id="main" class="pt-20 pb-28 px-5 max-w-screen-md mx-auto">
+    <!-- Populated by JS -->
   </main>
 
   <!-- Bottom Nav -->
-  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 backdrop-blur-md border-t" style="background:rgba(216,223,200,0.95);border-color:rgba(45,51,30,0.12)" role="navigation" aria-label="Tab navigation">
-    <a href="index.html" class="nav-active flex flex-col items-center justify-center -mt-[1px] pt-2">
-      <span class="material-symbols-outlined mb-1 scale-90" style="font-variation-settings:'FILL' 1;" aria-hidden="true">eco</span>
-      <span class="distingue text-[8px] tracking-widest">In Season</span>
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-5 pt-2" style="background:rgba(216,223,200,0.95);border-top:1px solid rgba(45,51,30,0.15)">
+    <a href="index.html" class="nav-active flex flex-col items-center -mt-[1px] pt-2">
+      <span class="material-symbols-outlined mb-1 text-[1.1rem]" style="font-variation-settings:'FILL' 1;" aria-hidden="true">eco</span>
+      <span class="distingue text-[0.5rem] tracking-widest font-normal">In Season</span>
     </a>
-    <a href="#" class="flex flex-col items-center justify-center text-primary/45 pt-2 hover:text-primary transition-colors">
-      <span class="material-symbols-outlined mb-1 scale-90" aria-hidden="true">bookmark</span>
-      <span class="distingue text-[8px] tracking-widest">Saved</span>
+    <a href="recipes.html" class="flex flex-col items-center text-primary/45 pt-2 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.1rem]" aria-hidden="true">bookmark</span>
+      <span class="distingue text-[0.5rem] tracking-widest font-normal">Recipes</span>
     </a>
-    <a href="#" class="flex flex-col items-center justify-center text-primary/45 pt-2 hover:text-primary transition-colors">
-      <span class="material-symbols-outlined mb-1 scale-90" aria-hidden="true">search</span>
-      <span class="distingue text-[8px] tracking-widest">Search</span>
+    <a href="search.html" class="flex flex-col items-center text-primary/45 pt-2 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.1rem]" aria-hidden="true">search</span>
+      <span class="distingue text-[0.5rem] tracking-widest font-normal">Search</span>
     </a>
   </nav>
 
-  <!-- Desktop spine label -->
-  <div class="hidden lg:flex fixed left-6 top-1/2 -rotate-90 origin-left items-center gap-4" aria-hidden="true">
-    <span class="distingue tracking-[0.4em] text-[10px] text-primary/50 font-normal" style="font-weight:400">ISSUE NO. 04 — SPRING HARVEST</span>
-    <div class="w-16 h-px bg-primary/20"></div>
-  </div>
+  <script>
+  // ─── DATA ────────────────────────────────────────────────────────────────────
+  const INGREDIENTS = {
+    'wild-garlic': {
+      name: 'Wild Garlic',
+      months: 'Mar – May',
+      season: 'Spring',
+      location: 'Woodland floors',
+      variety: 'Broad Leaf',
+      pairs: 'Butter, lemon, pasta, ricotta',
+      intensity: 'Mild – Medium',
+      description: 'Found in ancient woodland and shaded river banks from late March. Its broad, fragrant leaves carry the clean green bite of garlic without the heat. Pick before flowering for best flavour.',
+      note: 'Confirm identification by smell before picking — if it doesn\'t smell of garlic, do not use it.',
+      recipes: ['wild-garlic-pesto','wildgarlic-butter','jersey-royals-soup'],
+    },
+    'asparagus': {
+      name: 'Asparagus',
+      months: 'Apr – Jun',
+      season: 'Spring',
+      location: 'British grown',
+      variety: 'British Green',
+      pairs: 'Hollandaise, eggs, parmesan, ham',
+      intensity: 'Delicate',
+      description: 'The jewel of the British spring season, available for just eight weeks from late April. Early tender spears are best served simply — steamed or griddled with cultured butter and sea salt.',
+      note: 'The season is short. Buy British. Snap off the woody base rather than cutting.',
+      recipes: ['asparagus-hollandaise','asparagus-carbonara','asparagus-bruschetta'],
+    },
+    'rhubarb': {
+      name: 'Rhubarb',
+      months: 'Mar – Jul',
+      season: 'Spring',
+      location: 'Yorkshire forced',
+      variety: 'Champagne',
+      pairs: 'Custard, ginger, strawberry, orange',
+      intensity: 'Sharp',
+      description: 'Forced rhubarb from the Yorkshire triangle is among the earliest spring produce, its vivid pink stalks grown in candlelit sheds for extraordinary colour and tenderness.',
+      note: 'Leaves are toxic — remove before preparing. Forced pink is sweeter; garden rhubarb is more tart.',
+      recipes: ['rhubarb-crumble','rhubarb-custard','rhubarb-gin-jam'],
+    },
+    'jersey-royals': {
+      name: 'Jersey Royals',
+      months: 'Apr – Jun',
+      season: 'Spring',
+      location: 'Jersey, Channel Islands',
+      variety: 'International Kidney',
+      pairs: 'Mint, butter, wild garlic, smoked salmon',
+      intensity: 'Nutty, earthy',
+      description: 'The definitive taste of early May. Grown on south-facing slopes of Jersey fertilised with seaweed, these small waxy potatoes have paper-thin skins and an unmatched earthy sweetness.',
+      note: 'Don\'t peel them. The skin is the point. Boil with a sprig of mint.',
+      recipes: ['jersey-royals-butter','jersey-royals-soup','jersey-royals-salad'],
+    },
+    'strawberries': {
+      name: 'Strawberries',
+      months: 'Jun – Aug',
+      season: 'Summer',
+      location: 'British grown',
+      variety: 'Elsanta, Gariguette',
+      pairs: 'Cream, black pepper, balsamic, basil',
+      intensity: 'Sweet',
+      description: 'Peak British strawberries have a depth of flavour entirely absent from supermarket imports. Wait for the local season. Eat the same day you buy them.',
+      note: 'Black pepper and balsamic are not pretentious — they genuinely amplify the fruit\'s natural complexity.',
+      recipes: ['strawberry-pavlova','strawberry-shortcake','strawberries-cream'],
+    },
+    'elderflower': {
+      name: 'Elderflower',
+      months: 'May – Jun',
+      season: 'Spring–Summer',
+      location: 'Hedgerows',
+      variety: 'Common Elder',
+      pairs: 'Lemon, cucumber, gooseberry, prosecco',
+      intensity: 'Fragrant, floral',
+      description: 'The blossom of the elder tree signals the true beginning of summer. Available for only a few weeks, the flower heads must be picked in the morning when the scent is strongest.',
+      note: 'Pick away from roadsides. Use within 24 hours of picking — the fragrance fades fast.',
+      recipes: ['elderflower-cordial','elderflower-fritters','elderflower-posset'],
+    },
+    'heirloom-tomatoes': {
+      name: 'Heirloom Tomatoes',
+      months: 'Jul – Sep',
+      season: 'Summer',
+      location: 'British greenhouse',
+      variety: 'Mixed',
+      pairs: 'Basil, mozzarella, rapeseed oil, sourdough',
+      intensity: 'Complex, acidic',
+      description: 'High summer is tomato season. Heirloom varieties — Brandywine, Black Krim, Green Zebra — offer a complexity impossible in mass-produced types. Serve at room temperature, never cold.',
+      note: 'Never refrigerate a tomato. Cold destroys the volatile compounds responsible for flavour.',
+      recipes: ['smoked-heirloom-tomato','tomato-bruschetta','tomato-gazpacho'],
+    },
+    'wild-mushrooms': {
+      name: 'Wild Mushrooms',
+      months: 'Sep – Nov',
+      season: 'Autumn',
+      location: 'Woodland, fields',
+      variety: 'Mixed',
+      pairs: 'Thyme, butter, cream, toast, eggs',
+      intensity: 'Earthy, umami',
+      description: 'Autumn brings ceps, chanterelles, hedgehog mushrooms and more. The window is narrow and weather-dependent. Learn to identify at minimum three edible species before foraging.',
+      note: 'Never eat a mushroom you cannot positively identify. Take a field guide. Go with experience.',
+      recipes: ['mushroom-on-toast','mushroom-risotto','mushroom-pate'],
+    },
+    'pumpkin': {
+      name: 'Pumpkin',
+      months: 'Sep – Nov',
+      season: 'Autumn',
+      location: 'British grown',
+      variety: 'Crown Prince',
+      pairs: 'Sage, nutmeg, chilli, parmesan',
+      intensity: 'Sweet, dense',
+      description: 'Crown Prince is the superior British pumpkin — dense orange-gold flesh that roasts into deep sweetness. Avoid the pale Halloween variety; it\'s bred for carving, not eating.',
+      note: 'The seeds are edible — toast with salt and cumin. Nothing wasted.',
+      recipes: ['pumpkin-soup','pumpkin-risotto','roast-pumpkin'],
+    },
+    'kale': {
+      name: 'Kale',
+      months: 'Oct – Mar',
+      season: 'Winter',
+      location: 'British grown',
+      variety: 'Cavolo Nero',
+      pairs: 'Lemon, chilli, garlic, beans, bacon',
+      intensity: 'Robust, bitter',
+      description: 'Cavolo Nero — black kale — improves significantly after the first frost, which converts its starches to sugars. A winter staple of genuine depth, not a trend ingredient.',
+      note: 'Massage raw kale with oil and salt to soften the fibres. Or braise long and slow.',
+      recipes: ['kale-ribollita','kale-caesar','braised-kale'],
+    },
+    'parsnips': {
+      name: 'Parsnips',
+      months: 'Oct – Mar',
+      season: 'Autumn–Winter',
+      location: 'British grown',
+      variety: 'White Gem',
+      pairs: 'Honey, thyme, cream, nutmeg',
+      intensity: 'Sweet, earthy',
+      description: 'Like kale, parsnips sweeten after frost. A late autumn to winter root that\'s at its best roasted until caramelised, or puréed with cream and nutmeg.',
+      note: 'The core of large parsnips can be woody — remove it for smooth purées.',
+      recipes: ['roast-parsnips','parsnip-soup','parsnip-puree'],
+    },
+  };
 
+  // Example recipes per ingredient (stub data — no recipes built yet)
+  const EXAMPLE_RECIPES = {
+    'wild-garlic-pesto':      { name: 'Wild Garlic Pesto',        time: '10 mins',  diff: 'Simple' },
+    'wildgarlic-butter':      { name: 'Wild Garlic Compound Butter', time: '15 mins', diff: 'Simple' },
+    'jersey-royals-soup':     { name: 'Jersey Royals & Garlic Soup', time: '30 mins', diff: 'Simple' },
+    'asparagus-hollandaise':  { name: 'Asparagus & Hollandaise',  time: '20 mins',  diff: 'Intermediate' },
+    'asparagus-carbonara':    { name: 'Asparagus Carbonara',       time: '25 mins',  diff: 'Simple' },
+    'asparagus-bruschetta':   { name: 'Asparagus Bruschetta',      time: '15 mins',  diff: 'Simple' },
+    'rhubarb-crumble':        { name: 'Rhubarb Crumble',           time: '45 mins',  diff: 'Simple' },
+    'rhubarb-custard':        { name: 'Rhubarb & Custard Tart',   time: '1 hr 15',  diff: 'Intermediate' },
+    'rhubarb-gin-jam':        { name: 'Rhubarb & Gin Preserve',   time: '1 hr',     diff: 'Simple' },
+    'jersey-royals-butter':   { name: 'Jersey Royals with Mint Butter', time: '20 mins', diff: 'Simple' },
+    'jersey-royals-salad':    { name: 'Jersey Royal & Watercress Salad', time: '15 mins', diff: 'Simple' },
+    'strawberry-pavlova':     { name: 'Pavlova with Strawberries', time: '1 hr 30', diff: 'Intermediate' },
+    'strawberry-shortcake':   { name: 'Strawberry Shortcake',     time: '45 mins',  diff: 'Simple' },
+    'strawberries-cream':     { name: 'Strawberries & Clotted Cream', time: '5 mins', diff: 'Simple' },
+    'elderflower-cordial':    { name: 'Elderflower Cordial',       time: '2 hrs',    diff: 'Simple' },
+    'elderflower-fritters':   { name: 'Elderflower Fritters',      time: '20 mins',  diff: 'Simple' },
+    'elderflower-posset':     { name: 'Elderflower Lemon Posset',  time: '25 mins',  diff: 'Simple' },
+    'smoked-heirloom-tomato': { name: 'Smoked Heirloom Tomato',    time: '45 mins',  diff: 'Intermediate' },
+    'tomato-bruschetta':      { name: 'Heirloom Tomato Bruschetta', time: '15 mins', diff: 'Simple' },
+    'tomato-gazpacho':        { name: 'Cold Heirloom Gazpacho',    time: '20 mins',  diff: 'Simple' },
+    'mushroom-on-toast':      { name: 'Wild Mushrooms on Toast',   time: '15 mins',  diff: 'Simple' },
+    'mushroom-risotto':       { name: 'Cep Risotto',               time: '40 mins',  diff: 'Intermediate' },
+    'mushroom-pate':          { name: 'Mushroom & Walnut Pâté',   time: '30 mins',  diff: 'Simple' },
+    'pumpkin-soup':           { name: 'Crown Prince Soup',         time: '45 mins',  diff: 'Simple' },
+    'pumpkin-risotto':        { name: 'Pumpkin & Sage Risotto',    time: '40 mins',  diff: 'Intermediate' },
+    'roast-pumpkin':          { name: 'Roast Crown Prince',        time: '1 hr',     diff: 'Simple' },
+    'kale-ribollita':         { name: 'Ribollita',                 time: '1 hr 15',  diff: 'Simple' },
+    'kale-caesar':            { name: 'Kale Caesar',               time: '20 mins',  diff: 'Simple' },
+    'braised-kale':           { name: 'Braised Cavolo Nero',       time: '25 mins',  diff: 'Simple' },
+    'roast-parsnips':         { name: 'Honey Roast Parsnips',      time: '50 mins',  diff: 'Simple' },
+    'parsnip-soup':           { name: 'Curried Parsnip Soup',      time: '40 mins',  diff: 'Simple' },
+    'parsnip-puree':          { name: 'Parsnip & Cream Purée',     time: '30 mins',  diff: 'Simple' },
+  };
+
+  function slug(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g,'');
+  }
+
+  function fallbackIngredient(id) {
+    // Try to construct basic data from the slug
+    const name = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    return {
+      name,
+      months: 'Seasonal',
+      season: '–',
+      location: 'British grown',
+      variety: '–',
+      pairs: '–',
+      intensity: '–',
+      description: 'A seasonal ingredient at its peak right now.',
+      note: '',
+      recipes: [],
+    };
+  }
+
+  // ─── RENDER ──────────────────────────────────────────────────────────────────
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id') || 'wild-garlic';
+  const ing = INGREDIENTS[id] || fallbackIngredient(id);
+  document.title = `LARDER — ${ing.name}`;
+
+  const saved = JSON.parse(localStorage.getItem('larder_saved') || '[]');
+
+  const recipeRows = ing.recipes.length
+    ? ing.recipes.map((rid, idx) => {
+        const r = EXAMPLE_RECIPES[rid];
+        if (!r) return '';
+        const isSaved = saved.some(s => s.id === rid);
+        return `
+          <article class="recipe-row group flex gap-5 items-start py-7 cursor-pointer fade-in" style="animation-delay:${200 + idx * 80}ms" onclick="location.href='recipe.html?id=${rid}'">
+            <div class="w-8 flex-shrink-0">
+              <span class="distingue text-3xl text-primary opacity-20 recipe-num transition-opacity" aria-hidden="true">0${idx+1}</span>
+            </div>
+            <div class="flex-1">
+              <h3 class="recipe-title distingue text-[2.5rem] md:text-5xl leading-[0.85] mb-1 text-primary">${r.name}</h3>
+              <span class="text-sm italic opacity-65">${r.time} · ${r.diff}</span>
+            </div>
+            <div class="flex items-center self-center gap-2">
+              ${isSaved ? `<span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1;" aria-label="Saved">bookmark</span>` : ''}
+              <span class="material-symbols-outlined text-primary opacity-0 arrow-icon transition-opacity text-base" aria-hidden="true">arrow_forward</span>
+            </div>
+          </article>`;
+      }).join('')
+    : `<div class="py-12 text-center">
+        <p class="text-lg italic opacity-50">Recipes coming soon.</p>
+      </div>`;
+
+  document.getElementById('main').innerHTML = `
+    <!-- Hero -->
+    <section class="mb-8 pb-6 fade-in" style="border-bottom:1px solid rgba(45,51,30,0.18)">
+      <span class="distingue text-[0.5625rem] tracking-[0.4em] opacity-65 mb-2 block" style="font-weight:400">${ing.season} · In Season ${ing.months}</span>
+      <h1 class="distingue text-[4.5rem] md:text-[7rem] leading-[0.8] mb-5 text-primary">${ing.name}</h1>
+      <p class="text-xl italic leading-snug max-w-md opacity-90">${ing.description}</p>
+    </section>
+
+    <!-- Specs -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-3 py-5 mb-10 fade-in" style="animation-delay:80ms;border-bottom:1px solid rgba(45,51,30,0.18)">
+      <div><span class="distingue text-[0.5rem] tracking-wide opacity-55 block mb-1" style="font-weight:400">In Season</span><span class="text-lg italic font-semibold">${ing.months}</span></div>
+      <div><span class="distingue text-[0.5rem] tracking-wide opacity-55 block mb-1" style="font-weight:400">Variety</span><span class="text-lg italic font-semibold">${ing.variety}</span></div>
+      <div><span class="distingue text-[0.5rem] tracking-wide opacity-55 block mb-1" style="font-weight:400">Origin</span><span class="text-lg italic font-semibold">${ing.location}</span></div>
+      <div><span class="distingue text-[0.5rem] tracking-wide opacity-55 block mb-1" style="font-weight:400">Pairs With</span><span class="text-lg italic font-semibold">${ing.pairs}</span></div>
+    </section>
+
+    ${ing.note ? `
+    <!-- Note -->
+    <section class="p-5 mb-10 fade-in" style="animation-delay:130ms;background:rgba(45,51,30,0.05);border:1px solid rgba(45,51,30,0.15)">
+      <span class="distingue text-[0.5rem] tracking-widest opacity-60 block mb-2" style="font-weight:400">Forager's Note</span>
+      <p class="italic text-base leading-relaxed">"${ing.note}"</p>
+    </section>` : ''}
+
+    <!-- Recipes -->
+    <section class="fade-in" style="animation-delay:160ms">
+      <div class="flex justify-between items-baseline pb-2 mb-2" style="border-bottom:1px solid rgba(45,51,30,0.18)">
+        <h2 class="distingue text-sm tracking-widest text-primary">Selected Preparations</h2>
+        <span class="italic text-xs opacity-55">Tap to open recipe</span>
+      </div>
+      ${recipeRows}
+    </section>
+
+    <!-- Quote -->
+    <footer class="mt-20 mb-4 text-center fade-in" style="animation-delay:200ms">
+      <div class="max-w-xs mx-auto pt-6" style="border-top:1px solid rgba(45,51,30,0.15)">
+        <p class="italic text-xs opacity-50">"In season, by definition, means at its best. Everything else is a compromise."</p>
+      </div>
+    </footer>
+  `;
+  </script>
 </body>
 </html>

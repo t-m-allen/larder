@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LARDER — My Recipes</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;0,6..72,800;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary:"#2D331E", surface:"#f9faf3", "surface-container":"#ecefe5", "primary-container":"#dde7bd" },
+          fontFamily: { headline:["Newsreader","serif"], body:["Noto Serif","serif"], label:["Newsreader","serif"] },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; display:inline-block; line-height:1; }
+    body { background:#f9faf3; color:#2D331E; -webkit-font-smoothing:antialiased; }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-in { animation:fadeUp 0.35s ease forwards; opacity:0; }
+    .recipe-card { transition:background 0.15s ease; }
+    .recipe-card:hover { background:#ecefe5; }
+  </style>
+</head>
+<body class="font-body min-h-screen">
+
+  <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 h-14 bg-surface border-b border-primary/20">
+    <button class="p-2 hover:bg-surface-container rounded-sm transition-colors" aria-label="Menu">
+      <span class="material-symbols-outlined text-primary text-xl" aria-hidden="true">menu</span>
+    </button>
+    <a href="index.html" class="font-headline font-extrabold uppercase tracking-tight text-[1.5rem] text-primary">LARDER</a>
+    <div class="w-9"></div><!-- spacer -->
+  </nav>
+
+  <main class="pt-14 pb-20 max-w-2xl mx-auto px-5">
+    <div class="pt-6 pb-4 border-b border-primary/20 mb-6">
+      <span class="font-label text-[0.6rem] uppercase tracking-[0.2em] text-primary/50 block mb-1">Archive</span>
+      <h1 class="font-headline font-extrabold uppercase tracking-tighter text-[2.5rem] leading-none text-primary">My Recipes</h1>
+    </div>
+    <div id="list"><!-- Populated by JS --></div>
+  </main>
+
+  <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-surface border-t border-primary/20">
+    <a href="index.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">calendar_today</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">In Season</span>
+    </a>
+    <a href="recipes.html" class="flex flex-col items-center justify-center text-primary border-t-2 border-primary -mt-[1px] pt-2 pb-4 px-6" aria-current="page">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" style="font-variation-settings:'FILL' 1;" aria-hidden="true">bookmark</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Recipes</span>
+    </a>
+    <a href="search.html" class="flex flex-col items-center justify-center text-primary/50 pt-2 pb-4 px-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined mb-1 text-[1.25rem]" aria-hidden="true">search</span>
+      <span class="font-label text-[0.5625rem] font-bold uppercase tracking-widest">Search</span>
+    </a>
+  </footer>
+
+  <script>
+  function getSaved() { return JSON.parse(localStorage.getItem('larder_saved') || '[]'); }
+  function setSaved(arr) { localStorage.setItem('larder_saved', JSON.stringify(arr)); }
+
+  function unsave(id) {
+    const saved = getSaved().filter(r => r.id !== id);
+    setSaved(saved);
+    render();
+  }
+
+  function render() {
+    const saved = getSaved();
+    const list = document.getElementById('list');
+
+    if (saved.length === 0) {
+      list.innerHTML = `
+        <div class="text-center py-20 fade-in">
+          <div class="w-12 h-12 mx-auto mb-5 text-primary/20">
+            <svg viewBox="0 0 60 60" fill="none"><path d="M12 8H48V56L30 44L12 56V8Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <p class="font-label font-bold uppercase tracking-widest text-[0.6875rem] text-primary/40 mb-2">No saved recipes</p>
+          <p class="font-body italic text-sm text-primary/35 mb-8">Recipes you save will appear here.</p>
+          <a href="index.html" class="font-label font-bold uppercase tracking-widest text-[0.6875rem] text-primary border-b border-primary/40 pb-0.5 hover:opacity-70 transition-opacity">
+            Explore the season
+          </a>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = saved.map((r, i) => `
+      <div class="recipe-card fade-in flex items-start justify-between gap-4 px-3 py-5 -mx-3 rounded-sm cursor-pointer" style="animation-delay:${i * 60}ms" onclick="location.href='recipe.html?id=${r.id}'">
+        <div class="flex-1 min-w-0">
+          <p class="font-label font-bold uppercase tracking-widest text-[0.5625rem] text-primary/45 mb-1">${r.ingredient}</p>
+          <h2 class="font-headline font-extrabold text-[1.5rem] leading-[1] tracking-tight text-primary mb-1">${r.name}</h2>
+          <p class="font-body italic text-xs text-primary/50">${r.time} · ${r.difficulty}</p>
+        </div>
+        <div class="flex items-center gap-3 flex-shrink-0 pt-1">
+          <button
+            onclick="event.stopPropagation(); unsave('${r.id}')"
+            class="p-1.5 hover:bg-primary/10 rounded-sm transition-colors"
+            aria-label="Remove ${r.name} from saved"
+          >
+            <span class="material-symbols-outlined text-primary/40 hover:text-primary text-lg transition-colors" style="font-variation-settings:'FILL' 1;">bookmark_remove</span>
+          </button>
+          <span class="material-symbols-outlined text-primary/30 text-lg" aria-hidden="true">arrow_forward</span>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(45,51,30,0.1)" class="mx-3"></div>
+    `).join('');
+  }
+
+  render();
+  </script>
+</body>
+</html>
